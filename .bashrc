@@ -6,6 +6,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export EDITOR=nvim
+export MANPAGER='nvim +Man!'
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
