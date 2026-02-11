@@ -1,0 +1,30 @@
+[general]
+import = [
+    "~/.config/alacritty/ayu_dark.toml"
+]
+
+[window]
+decorations = "None"
+opacity = 0.9
+
+[window.padding]
+x = 10
+y = 10
+
+[font]
+size = 15
+
+# [font.normal]
+# family = "JetBrainsMono"
+# style = "Regular"
+
+[cursor.style]
+shape = "Block"
+blinking = "Always"
+
+[selection]
+save_to_clipboard = true
+
+#[terminal.shell]
+#program = "/usr/bin/fish"
+# TODO add image preview usng uzb++ 
