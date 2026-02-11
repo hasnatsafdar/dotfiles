@@ -30,7 +30,7 @@ Config { font = "JetBrains Mono Nerd 10"
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
                     , Run Com "uname" ["-s","-r"] "" 36000
-                    , Run Date "%I:%M:%S  													    %p %a %b %_d" "date" 10
+                    , Run Date "%I:%M:%S  													               %p %a %b %_d" "date" 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"

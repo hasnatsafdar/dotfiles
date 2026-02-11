@@ -1,17 +1,20 @@
 -- Imports
 import XMonad
-import Data.Monoid
 import System.Exit
+import Data.Monoid
 import XMonad.Hooks.ManageDocks
+import XMonad.ManageHook
+import XMonad.Layout.NoBorders
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
-import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.SpawnOnce
 import XMonad.Layout.Spacing
+import XMonad.Layout.ToggleLayouts
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
-myTerminal      = "st"
+myTerminal      = "alacritty"
 
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
@@ -34,6 +37,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_d     ), spawn "dmenu_run")
     , ((modm,               xK_b     ), spawn "flatpak run app.zen_browser.zen")
     , ((modm,               xK_q     ), kill)
+    , ((modm, xK_f), sendMessage ToggleLayout)
     , ((modm,               xK_space ), sendMessage NextLayout)
     , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
     , ((modm,               xK_j     ), windows W.focusDown)
@@ -64,8 +68,10 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
                                        >> windows W.shiftMaster))
     ]
 
-myLayout = spacingWithEdge 3
-         $ avoidStruts (tiled ||| Mirror tiled ||| Full)
+myLayout =
+  toggleLayouts (noBorders Full) $
+    spacingWithEdge 3 $ 
+      avoidStruts (tiled ||| Mirror tiled ||| Full)
   where
      tiled   = Tall nmaster delta ratio
      nmaster = 1
