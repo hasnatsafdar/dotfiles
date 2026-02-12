@@ -7,6 +7,8 @@ fi
 
 export EDITOR=nvim
 export MANPAGER='nvim +Man!'
+export FZF_CTRL_T_OPTS="--preview 'ls --color=always {}'"
+export FZF_ALT_C_OPTS="--preview 'ls --color=always {}'"
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
@@ -92,6 +94,9 @@ function y() {
   [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
   rm -f -- "$tmp"
 }
+
+# fzf keybindings
+[ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
 
 eval "$(fzf --bash)"
 eval "$(zoxide init --cmd cd bash)"
