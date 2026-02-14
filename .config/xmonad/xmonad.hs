@@ -11,6 +11,8 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.Spacing
 import XMonad.Layout.Spiral
 import XMonad.Layout.Renamed
+import XMonad.Util.Run
+import XMonad.Layout.ToggleLayouts
 import XMonad.StackSet qualified as W
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.Loggers
@@ -42,14 +44,12 @@ myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 -- myWorkspaces = [ "\xf489"  , "\xf268"  , "\xe749" , "\xf198" , "\xf120" , "\xf1bc" , "\xf03d" , "\xf1fc" , "\xf11b" ]
 -- myWorkspaces = ["\xf489", "\xf02af", "\xe749", "\xf198", "\xf067f", "\xfb64", "\xf167", "\xf1f6", "\xf86e"]
 
--- Mod key (Super/Windows key)
 myModMask = mod4Mask
 
--- Terminal
 myTerminal = "alacritty"
 
--- Layouts
 myLayoutHook =
+  toggleLayouts (noBorders Full) $
   avoidStruts $
         renamed [Replace "Tall"] (mySpacing tall)
         ||| renamed [Replace "Wide"] (mySpacing (Mirror tall))
@@ -69,12 +69,22 @@ myManageHook =
     ]
     <+> insertPosition Below Newer
 
+------------------------------------------------------------------------
+myStartupHook = do
+        spawnOnce "nitrogen --restore &"
+        spawnOnce "picom &"
+	spawnOnce "dunst &"
+------------------------------------------------------------------------
+
 -- Key bindings (matching dwm as closely as possible)
 myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
-  , ("M-r", spawn "rofi -show drun -theme ~/.config/rofi/config.rasi")
+  , ("M-r", spawn "rofi -show drun")
   , ("M-d", spawn "dmenu_run")
+  , ("M-o", spawn "~/dotfiles/scripts/bins/buku-dmenu")
+  , ("M-S-o", spawn "~/dotfiles/scripts/bins/def-lookup")
+  , ("M-b", spawn "flatpak run app.zen_browser.zen")
   , ("C-<Print>", spawn "maim -s | xclip -selection clipboard -t image/png")
   , -- Window management
     ("M-q", kill)
@@ -89,6 +99,7 @@ myKeys =
   , -- Layout switching
     ("M-t", sendMessage $ JumpToLayout "Tall")
   , ("M-f", sendMessage $ JumpToLayout "Full")
+  , ("M-S-f", sendMessage ToggleLayout)
   , ("M-c", sendMessage $ JumpToLayout "Spiral")
   , ("M-S-<Return>", sendMessage NextLayout)
   , ("M-n", sendMessage NextLayout)
@@ -163,7 +174,7 @@ myConfig =
     , focusedBorderColor = myFocusedBorderColor
     , layoutHook = myLayoutHook
     , manageHook = myManageHook <+> manageDocks
-    , startupHook = spawnOnce "xsetroot -cursor_name left_ptr"
+    , startupHook = myStartupHook
     }
     `additionalKeysP` myKeys
 

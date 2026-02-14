@@ -61,7 +61,7 @@ alias la='eza -lah --icons --group-directories-first'
 alias lt='eza -T --icons'
 
 # QoL
-alias xrc='nvim ~/.xmonad/xmonad.hs'
+alias xrc='nvim ~/.config/xmonad/xmonad.hs'
 alias brc='nvim ~/.config/xmobar/xmobarrc'
 alias df='df -h -x squashfs -x tmpfs -x devtmfs'
 alias lsmount='mount | column -t'

@@ -1,33 +1,3 @@
--- Imports
-import XMonad
-import System.Exit
-import XMonad.Hooks.ManageDocks
-import XMonad.Layout.NoBorders
-import XMonad.Util.Run
-import XMonad.Util.SpawnOnce
-import XMonad.Layout.Spacing
-import XMonad.Layout.ToggleLayouts
-
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
-
-myTerminal      = "alacritty"
-
-myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
-
-myClickJustFocuses :: Bool
-myClickJustFocuses = False
-
-myBorderWidth   = 2
-
-myModMask       = mod4Mask
-
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
---
-myNormalBorderColor  = "#000000"
-myFocusedBorderColor = "#dddddd"
-
 -- Key bindings.
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm,               xK_Return), spawn $ XMonad.terminal conf)
@@ -105,6 +75,7 @@ myLogHook = return ()
 myStartupHook = do
         spawnOnce "nitrogen --restore &"
         spawnOnce "picom &"
+	spawnOnce "dunst &"
 
 main = do
   xmproc <- spawnPipe "xmobar /home/hxt/.config/xmobar/xmobarrc"
