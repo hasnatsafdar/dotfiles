@@ -1,0 +1,14 @@
+#!/bin/bash
+version="v0.1.0"
+
+if [ "$1" == "--help" ] ; then
+    echo "Run the script, start typing until the desired bookmark is selected."
+    echo "buku and dmenu must be installed."
+    exit 0
+elif [ "$1" == "--version" ] ; then
+    echo "buku-dmenu $version"
+    exit 0
+fi
+
+#get all bmks | swap tabs for spaces | run dmenu | cut to ID | run buku if not empty
+buku -p -f 3 | sed 's/\t/ /g' | dmenu -i | cut -d ' ' -f 1 | xargs --no-run-if-empty buku -o

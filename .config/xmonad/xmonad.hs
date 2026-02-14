@@ -28,14 +28,12 @@ colorMag = "#ad8ee6" -- magenta
 colorCyn = "#0db9d7" -- cyan
 colorBrBlk = "#444b6a" -- bright black
 
--- Appearance
 myBorderWidth = 4
 
 myNormalBorderColor = colorBrBlk
 
 myFocusedBorderColor = colorMag
 
--- Gaps (matching dwm: 3px all around)
 mySpacing = spacingWithEdge 3
 
 -- Workspaces
