@@ -1,39 +1,52 @@
-Config { font = "JetBrains Mono Nerd 10"
-       , additionalFonts = ["JetBrains Mono Nerd 12"]
-       , borderColor = "black"
-       , border = FullB
-       , bgColor = "black"
-       , fgColor = "whitesmoke"
-       , alpha = 128
-       , position = Top
-       , textOffset = -1
-       , iconOffset = -1
-       , lowerOnStart = True
-       , pickBroadest = False
-       , persistent = False
-       , hideOnStart = False
-       , iconRoot = "."
-       , allDesktops = True
-       , overrideRedirect = True
-       , textOutputFormat = Ansi
-       , commands = [ Run Weather "EGPF" ["-t","<station>: <tempC>C",
-                                          "-L","18","-H","25",
-                                          "--normal","green",
-                                          "--high","red",
-                                          "--low","lightblue"] 36000
-                    , Run Network "eth0" ["-L","0","-H","32",
-                                          "--normal","green","--high","red"] 10
-                    , Run Network "eth1" ["-L","0","-H","32",
-                                          "--normal","green","--high","red"] 10
-                    , Run Cpu ["-L","3","-H","50",
-                               "--normal","green","--high","red"] 10
-                    , Run Memory ["-t","Mem: <usedratio>%"] 10
-                    , Run Swap [] 10
-                    , Run Com "uname" ["-s","-r"] "" 36000
-                    , Run Date "%I:%M:%S %p 													                    %a %b %_d" "date" 10
-                    ]
-       , sepChar = "%"
-       , alignSep = "}{"
-       , template = "%cpu% | <box>%memory% * %swap%</box> | %eth0% - %eth1% }\
-                    \{ <fc=#ee9a00><fn=1>%date%</fn></fc>| %EGPF% | %uname%"
-       }
+-- TokyoNight XMobar Config
+Config {
+   -- Appearance
+     font            = "JetBrainsMono Nerd Font Mono Bold 12"
+   , additionalFonts = [ "JetBrainsMono Nerd Font Mono 14" ]
+   , bgColor         = "#1a1b26"
+   , fgColor         = "#a9b1d6"
+   , alpha 	     = 128
+   , position        = TopSize C 100 25 │ 
+   , border          = BottomB
+   , borderColor     = "#444b6a"
+   , borderWidth     = 2
+
+   -- Layout
+   , sepChar         = "%"
+   , alignSep        = "}{"
+   , template        = " %XMonadLog% }{ %cpu% <fc=#444b6a>│</fc> %memory% <fc=#444b6a>│</fc> %battery% <fc=#444b6a>│</fc> %date% "
+
+   -- Plugins
+   , commands        =
+        [ Run XMonadLog
+        , Run Cpu
+            [ "-t", "<fc=#7aa2f7> CPU:</fc> <total>%"
+            , "-L", "30"
+            , "-H", "70"
+            , "-l", "#9ece6a"
+            , "-n", "#e0af68"
+            , "-h", "#f7768e"
+            ] 10
+        , Run Memory
+            [ "-t", "<fc=#7aa2f7>󰍛 MEM:</fc> <usedratio>%"
+            , "-L", "30"
+            , "-H", "70"
+            , "-l", "#9ece6a"
+            , "-n", "#e0af68"
+            , "-h", "#f7768e"
+            ] 10
+        , Run Battery
+            [ "-t", "<fc=#7aa2f7>󱐋 BAT:</fc> <acstatus>"
+            , "-L", "20"
+            , "-H", "80"
+            , "-l", "#f7768e"
+            , "-n", "#e0af68"
+            , "-h", "#9ece6a"
+            , "--"
+            , "-o", "<left>% (<timeleft>)"
+            , "-O", "<fc=#e0af68>Charging</fc> <left>%"
+            , "-i", "<fc=#9ece6a>Charged</fc>"
+            ] 50
+        , Run Date "<fc=#ad8ee6> %a %b %_d %I:%M:%S %p</fc>" "date" 10
+        ]
+   }
