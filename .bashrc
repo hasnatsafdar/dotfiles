@@ -62,13 +62,17 @@ alias lt='eza -T --icons'
 
 # QoL
 alias xrc='nvim ~/.config/xmonad/xmonad.hs'
+alias drc='nvim ~/projects/dwm/config.h'
+alias mdwm="cd ~/projects/dwm; sudo make clean install; cd -";
 alias brc='nvim ~/.config/xmobar/xmobarrc'
 alias df='df -h -x squashfs -x tmpfs -x devtmfs'
 alias lsmount='mount | column -t'
 alias extip='curl icanhazip.com'
 alias speedtest='speedtest-cli --bytes'
+alias tns='tmux new -s'
 alias f="fzf --preview='bat --color=always {}'"
 alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"
+alias update='sudo dnf update -y'
 alias i='sudo dnf install -y'
 alias is='sudo dnf search'
 alias ld='lazydocker'

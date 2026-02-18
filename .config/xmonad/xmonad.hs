@@ -74,16 +74,17 @@ myStartupHook = do
         spawnOnce "nitrogen --restore &"
         spawnOnce "picom &"
 	spawnOnce "dunst &"
+-- TODO Beautify dunst a bit
 ------------------------------------------------------------------------
 
 -- Key bindings (matching dwm as closely as possible)
 myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
-  , ("M-r", spawn "rofi -show drun")
-  , ("M-d", spawn "dmenu_run")
-  , ("M-o", spawn "~/dotfiles/scripts/bins/buku-dmenu")
-  , ("M-S-o", spawn "~/dotfiles/scripts/bins/def-lookup")
+  , ("M-d", spawn "rofi -show-icons -show drun")
+  , ("M-S-d", spawn "dmenu_run")
+  , ("M-o", spawn "buku-dmenu")
+  , ("M-S-o", spawn "def-lookup")
   , ("M-b", spawn "flatpak run app.zen_browser.zen")
   , ("C-<Print>", spawn "maim -s | xclip -selection clipboard -t image/png")
   , -- Window management

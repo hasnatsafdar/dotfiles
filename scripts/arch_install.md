@@ -53,11 +53,10 @@ systemctl enable NetworkManager
 grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# Arch BTW (non-optional)
 pacman -S fastfetch btop
 fastfetch -c examples/13
 btop
-
-pacman -Syu xorg-server xorg-xinit xorg-xrandr xclip xwallpaper xorg-xset xorg-xsetroot xorg-xdpyinfo
 
 # Setting up the AUR helper
 git clone https://aur.archlinux.org/paru.git
@@ -68,7 +67,15 @@ makepkg -si
 pacman -S man tealdeer
 
 ### You're now pretty much good to go with whatever you want to install but (opinionated) window manager setup is below now.
-pacman -Syu bspwm sxhkd alacritty rofi dmenu dunst git picom stow ttf-jetbrains-mono-nerd firefox
+pacman -S xorg-server xorg-xinit xorg-xrandr xclip xwallpaper xorg-xset xorg-xsetroot xorg-xdpyinfo
+sudo pacman -S libx11 libxft libxinerama
+
+git clone https://git.suckless.org/dwm
+git clone https://git.suckless.org/st
+
+pacman -S dmenu dunst picom stow ttf-jetbrains-mono-nerd firefox
+
+# Reboot
 
 # Opinionated tools and stuff
 

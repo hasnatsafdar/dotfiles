@@ -1,8 +1,14 @@
 -- TokyoNight XMobar Config
+-- TODO Volume control
+-- TODO Brightness control
+-- TODO Temperature
+-- TODO Wifi and Bluetooth
+-- TODO OBS and mic stuff
+
 Config {
    -- Appearance
      font            = "JetBrainsMono Nerd Font Mono Bold 12"
-   , additionalFonts = [ "JetBrainsMono Nerd Font Mono 14" ]
+   , additionalFonts = [ "JetBrainsMono Nerd Font Mono 12" ]
    , bgColor         = "#1a1b26"
    , fgColor         = "#a9b1d6"
    , alpha 	     = 128
