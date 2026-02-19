@@ -72,9 +72,8 @@ myManageHook =
 ------------------------------------------------------------------------
 myStartupHook = do
         spawnOnce "nitrogen --restore &"
-        spawnOnce "picom &"
+        -- spawnOnce "picom &"
 	spawnOnce "dunst &"
--- TODO Beautify dunst a bit
 ------------------------------------------------------------------------
 
 -- Key bindings (matching dwm as closely as possible)

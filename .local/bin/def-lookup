@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 word=$(xclip -o)
 res=$(curl -s "https://api.dictionaryapi.dev/api/v2/entries/en_US/$word")

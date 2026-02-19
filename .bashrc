@@ -39,15 +39,15 @@ alias ..='cd ..'
 alias ...='cd ../..'
 
 # Core utils
-alias vi='/bin/nvim'
-alias cat='/bin/bat'
+alias vi='nvim'
+alias cat='bat'
 
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias mkdir='mkdir -pv'
 
 # Safer delete
-alias rm='/bin/mv -t ~/.local/share/Trash/files/'
+# alias rm='mv -t ~/.local/share/Trash/files/'
 
 # Auto ls on cd
 cx() {
@@ -60,11 +60,13 @@ alias ls='eza -lh --icons --group-directories-first'
 alias la='eza -lah --icons --group-directories-first'
 alias lt='eza -T --icons'
 
-# QoL
+# tltt (too lazy to type)
+alias cfg='sudo nvim /etc/nixos/configuration.nix'
+alias nrs='sudo nixos-rebuild switch'
 alias xrc='nvim ~/.config/xmonad/xmonad.hs'
+alias brc='nvim ~/.config/xmobar/xmobarrc'
 alias drc='nvim ~/projects/dwm/config.h'
 alias mdwm="cd ~/projects/dwm; sudo make clean install; cd -";
-alias brc='nvim ~/.config/xmobar/xmobarrc'
 alias df='df -h -x squashfs -x tmpfs -x devtmfs'
 alias lsmount='mount | column -t'
 alias extip='curl icanhazip.com'
@@ -86,7 +88,7 @@ alias mpvyt="mpv --quiet \
   --hwdec=auto --profile=fast"
 
 # Fastfetch
-alias ff='fastfetch -c examples/13'
+alias ff='fastfetch -c ~/.config/fastfetch/13.jsonc'
 alias ffn='fastfetch --logo nixos -c examples/10'
 alias ffs='fastfetch -c ~/.config/fastfetch/fastfetch.jsonc'
 
