@@ -1,29 +1,45 @@
 # Enable colors and change prompt:
 autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} %b "
 
-# History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
+export EDITOR=nvim
+export MANPAGER='nvim +Man!'
+export FZF_CTRL_T_OPTS="--preview 'ls --color=always {}'"
+export FZF_ALT_C_OPTS="--preview 'ls --color=always {}'"
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+
+# Hist Options
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
 # Basic auto/tab complete:
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons $realpath'
 autoload -U compinit
-zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots)		# Include hidden files.
+_comp_options+=(globdots) # Include hidden files.
 
 # vi mode
 bindkey -v
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^f' autosuggest-accept
+bindkey '^[w' kill-region
 export KEYTIMEOUT=1
-
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
@@ -46,16 +62,7 @@ zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
-# Use lf to switch directories and bind it to ctrl-o
-# lfcd () {
-#     tmp="$(mktemp)"
-#     lf -last-dir-path="$tmp" "$@"
-#     if [ -f "$tmp" ]; then
-#         dir="$(cat "$tmp")"
-#         rm -f "$tmp"
-#         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
-#     fi
-# }
+# Yazi used as lf cz it's a better name
 function lf() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	command yazi "$@" --cwd-file="$tmp"
@@ -69,9 +76,90 @@ bindkey -s '^o' 'lf\n'
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
+# --- meri customization ---
+# aliases
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Core utils
+alias vi='nvim'
+alias cat='bat'
+
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias mkdir='mkdir -pv'
+
+# Safer delete
+# alias rm='mv -t ~/.local/share/Trash/files/'
+
+# Auto ls on cd
+cx() {
+  cd "$@" || return
+  eza -lh --icons=always --group-directories-first | head -n 50
+}
+
+# eza
+alias ls='eza -lh --icons --group-directories-first'
+alias la='eza -lah --icons --group-directories-first'
+alias lt='eza -T --icons'
+
+# tltt (too long to type)
+alias cfg='nvim ~/nix/configuration.nix'
+alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
+alias xrc='nvim ~/.config/xmonad/xmonad.hs'
+alias brc='nvim ~/.config/xmobar/xmobarrc'
+alias drc='nvim ~/projects/dwm/config.h'
+alias mdwm="cd ~/projects/dwm; sudo make clean install; cd -";
+alias df='df -h -x squashfs -x tmpfs -x devtmfs'
+alias lsmount='mount | column -t'
+alias extip='curl icanhazip.com'
+alias speedtest='speedtest-cli --bytes'
+alias tns='tmux new -s'
+alias f="fzf --preview='bat --color=always {}'"
+alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"
+alias update='sudo dnf update -y'
+alias i='sudo dnf install -y'
+alias is='sudo dnf search'
+alias ld='lazydocker'
+alias lg='lazygit'
+alias lemmein='ssh haxnethost@192.168.122.143'
+alias s='BROWSER=w3m ddgr'
+
+alias mpvyt="mpv --quiet \
+  --msg-level=all=no \
+  --ytdl-format='bestvideo[height<=720]+bestaudio/best[height<=720]' \
+  --hwdec=auto --profile=fast"
+
+# Fastfetch
+alias ff='fastfetch -c examples/13'
+alias ffn='fastfetch --logo nixos -c examples/10'
+alias ffs='fastfetch -c ~/.config/fastfetch/fastfetch.jsonc'
+
+# Yazi setup
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  command yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd <"$tmp"
+  [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
+# fzf keybindings
+[ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
+
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+
+ff
+
 # Load aliases and shortcuts if existent.
-[ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
-[ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
+# [ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
+# [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
 
 # Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source ~/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source ~/.config/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh 2>/dev/null
+source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh 2>/dev/null

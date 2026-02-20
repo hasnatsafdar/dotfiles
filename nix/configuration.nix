@@ -98,12 +98,14 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kanata
-      oh-my-posh
       nitch
       fastfetch
       btop
       xwallpaper
       xmobar
+      tealdeer
+      ddgr
+      w3m
       haskell-language-server
       dmenu
       polybar
