@@ -1,54 +1,167 @@
-# Set the directory we want to store zinit and plugins
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+# Enable colors and change prompt:
+autoload -U colors && colors
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} %b "
 
-# Download Zinit, if it's not there yet
-if [ ! -d "$ZINIT_HOME" ]; then
-   mkdir -p "$(dirname $ZINIT_HOME)"
-   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
+export EDITOR=nvim
+export MANPAGER='nvim +Man!'
+export FZF_CTRL_T_OPTS="--preview 'ls --color=always {}'"
+export FZF_ALT_C_OPTS="--preview 'ls --color=always {}'"
 
-# Source/Load zinit
-source "${ZINIT_HOME}/zinit.zsh"
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
 
-# Add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
+# Hist Options
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
-# Load completions
-autoload -Uz compinit && compinit
-zinit cdreplay -q
+# Basic auto/tab complete:
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons $realpath'
+autoload -U compinit
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots) # Include hidden files.
 
-# Keybindings
-bindkey -e
+# vi mode
+# bindkey -e
+bindkey -v
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
+bindkey '^f' autosuggest-accept
 bindkey '^[w' kill-region
+export KEYTIMEOUT=1
 
-# # History
-# HISTSIZE=5000
-# HISTFILE=~/.zsh_history
-# SAVEHIST=$HISTSIZE
-# HISTDUP=erase
-# setopt appendhistory
-# setopt sharehistory
-# setopt hist_ignore_space
-# setopt hist_ignore_all_dups
-# setopt hist_save_no_dups
-# setopt hist_ignore_dups
-# setopt hist_find_no_dups
-#
-# # Completion styling
-# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-# zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-# zstyle ':completion:*' menu no
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-# zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-#
-# # Aliases
-# alias ls='ls --color'
-#
-# # Shell integrations
-# eval "$(fzf --zsh)"
-# eval "$(zoxide init --cmd cd zsh)"
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+# Yazi used as lf cz it's a better name
+function lf() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+bindkey -s '^o' 'lf\n'
+
+# Edit line in vim with ctrl-e:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
+
+# --- meri customization ---
+# aliases
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Core utils
+alias vi='nvim'
+alias cat='bat'
+
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias mkdir='mkdir -pv'
+
+# Safer delete
+# alias rm='mv -t ~/.local/share/Trash/files/'
+
+# Auto ls on cd
+cx() {
+  cd "$@" || return
+  eza -lh --icons=always --group-directories-first | head -n 50
+}
+
+# eza
+alias ls='eza -lh --icons --group-directories-first'
+alias la='eza -lah --icons --group-directories-first'
+alias lt='eza -T --icons'
+
+# tltt (too long to type)
+alias brc='nvim ~/.config/xmobar/xmobarrc'
+alias cfg='nvim ~/nix/configuration.nix'
+alias drc='nvim ~/projects/dwm/config.h'
+alias df='df -h -x squashfs -x tmpfs -x devtmfs'
+alias extip='curl icanhazip.com'
+alias f="fzf --preview='bat --color=always {}'"
+alias gp='gopass'
+alias i='sudo dnf install -y'
+alias is='sudo dnf search'
+alias lsmount='mount | column -t'
+alias ld='lazydocker'
+alias lg='lazygit'
+alias lemmein='ssh haxnethost@192.168.122.143'
+alias mdwm='cd ~/projects/dwm; sudo make clean install; cd -';
+alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
+alias speedtest='speedtest-cli --bytes'
+alias s='BROWSER=w3m ddgr'
+alias tns='tmux new -s'
+alias update='sudo dnf update -y'
+alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"
+alias xrc='nvim ~/.config/xmonad/xmonad.hs'
+
+alias mpvyt="mpv --quiet \
+  --msg-level=all=no \
+  --ytdl-format='bestvideo[height<=720]+bestaudio/best[height<=720]' \
+  --hwdec=auto --profile=fast"
+
+# Fastfetch
+alias ff='fastfetch -c examples/13'
+alias ffn='fastfetch -c ~/.config/fastfetch/25.jsonc'
+alias ffs='fastfetch -c ~/.config/fastfetch/fastfetch.jsonc'
+
+# Yazi setup
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  command yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd <"$tmp"
+  [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
+# fzf keybindings
+[ -f /usr/share/fzf/shell/key-bindings.bash ] && source /usr/share/fzf/shell/key-bindings.bash
+
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
+
+ff
+
+# Load aliases and shortcuts if existent.
+# [ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
+# [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
+
+# Load zsh-syntax-highlighting; should be last.
+source ~/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source ~/.config/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh 2>/dev/null
+source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh 2>/dev/null

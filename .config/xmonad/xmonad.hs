@@ -34,7 +34,7 @@ myBorderWidth = 4
 
 myNormalBorderColor = colorBrBlk
 
-myFocusedBorderColor = colorMag
+myFocusedBorderColor = colorCyn
 
 mySpacing = spacingWithEdge 3
 

@@ -54,6 +54,13 @@
 
   services.desktopManager.gnome.enable = true;
 
+  services.flatpak.enable = true;
+
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
   services.xserver.xkb = {
     layout = "us";
     variant = "";
@@ -66,16 +73,13 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
   };
+
     programs.zsh = {
 	enable = true;
     };
+
   users.defaultUserShell = pkgs.zsh;
   environment.shells = [ pkgs.zsh ];
 
@@ -92,16 +96,21 @@
     user.email = "hasnat.professional@gmail.com";
     };
 
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
   users.users.hxt = {
     isNormalUser = true;
     description = "Hasnat Safdar";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kanata
+      libnotify
       nitch
       fastfetch
+      lxappearance
+      gopass
       btop
-      xwallpaper
       xmobar
       tealdeer
       ddgr
@@ -111,7 +120,10 @@
       polybar
       rofi
       alacritty
+      kitty
       picom
+      clock-rs
+      zathura
       yazi
       lf
       stow
@@ -123,7 +135,10 @@
       lazygit
       eza
       zoxide
+      xwallpaper
       nitrogen
+      hyprpaper
+      swww
       hugo
       buku
     ];
