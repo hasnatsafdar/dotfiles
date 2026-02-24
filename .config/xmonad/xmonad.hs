@@ -72,7 +72,7 @@ myManageHook =
 ------------------------------------------------------------------------
 myStartupHook = do
         spawnOnce "nitrogen --restore &"
-        -- spawnOnce "picom &"
+        spawnOnce "picom &"
 	spawnOnce "dunst &"
 ------------------------------------------------------------------------
 
@@ -81,6 +81,7 @@ myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
   , ("M-d", spawn "rofi -show-icons -show drun")
+  , ("M-S-w", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
   , ("M-o", spawn "buku-dmenu")
   , ("M-S-o", spawn "def-lookup")

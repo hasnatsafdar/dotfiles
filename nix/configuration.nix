@@ -30,7 +30,7 @@
   };
 
   services = {
-  picom.enable = true;
+  # picom.enable = true;
   displayManager = {
     ly.enable = true;
   };
@@ -104,13 +104,16 @@
     description = "Hasnat Safdar";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      alacritty
+      brave
+      bat
       kanata
       libnotify
+      btop
       nitch
       fastfetch
       lxappearance
       gopass
-      btop
       xmobar
       tealdeer
       ddgr
@@ -119,7 +122,6 @@
       dmenu
       polybar
       rofi
-      alacritty
       kitty
       picom
       clock-rs
@@ -185,8 +187,6 @@
     fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
-
-  programs.firefox.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 

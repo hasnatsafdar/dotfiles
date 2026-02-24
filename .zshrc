@@ -6,6 +6,7 @@ export EDITOR=nvim
 export MANPAGER='nvim +Man!'
 export FZF_CTRL_T_OPTS="--preview 'ls --color=always {}'"
 export FZF_ALT_C_OPTS="--preview 'ls --color=always {}'"
+export PATH="$HOME/.local/bin:$PATH"
 
 # History
 HISTSIZE=5000
@@ -34,34 +35,38 @@ compinit
 _comp_options+=(globdots) # Include hidden files.
 
 # vi mode
-# bindkey -e
-bindkey -v
+# bindkey -v
+# bindkey '^f' autosuggest-accept
+bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
-bindkey '^f' autosuggest-accept
 bindkey '^[w' kill-region
 export KEYTIMEOUT=1
 
-# Change cursor shape for different vi modes.
-function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'block' ]]; then
-    echo -ne '\e[1 q'
-  elif [[ ${KEYMAP} == main ]] ||
-       [[ ${KEYMAP} == viins ]] ||
-       [[ ${KEYMAP} = '' ]] ||
-       [[ $1 = 'beam' ]]; then
-    echo -ne '\e[5 q'
-  fi
-}
-zle -N zle-keymap-select
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
-zle -N zle-line-init
-echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+# # Edit line in vim with ctrl-e:
+# autoload edit-command-line; zle -N edit-command-line
+# bindkey '^e' edit-command-line
+
+# # Change cursor shape for different vi modes.
+# function zle-keymap-select {
+#   if [[ ${KEYMAP} == vicmd ]] ||
+#      [[ $1 = 'block' ]]; then
+#     echo -ne '\e[1 q'
+#   elif [[ ${KEYMAP} == main ]] ||
+#        [[ ${KEYMAP} == viins ]] ||
+#        [[ ${KEYMAP} = '' ]] ||
+#        [[ $1 = 'beam' ]]; then
+#     echo -ne '\e[5 q'
+#   fi
+# }
+# zle -N zle-keymap-select
+# zle-line-init() {
+#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+#     echo -ne "\e[5 q"
+# }
+# zle -N zle-line-init
+# echo -ne '\e[5 q' # Use beam shape cursor on startup.
+# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 # Yazi used as lf cz it's a better name
 function lf() {
@@ -73,11 +78,6 @@ function lf() {
 }
 bindkey -s '^o' 'lf\n'
 
-# Edit line in vim with ctrl-e:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
-
-# --- meri customization ---
 # aliases
 
 # Navigation
@@ -124,7 +124,7 @@ alias mdwm='cd ~/projects/dwm; sudo make clean install; cd -';
 alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
 alias speedtest='speedtest-cli --bytes'
 alias s='BROWSER=w3m ddgr'
-alias tns='tmux new -s'
+alias tmn='tmux new -s'
 alias update='sudo dnf update -y'
 alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"
 alias xrc='nvim ~/.config/xmonad/xmonad.hs'
