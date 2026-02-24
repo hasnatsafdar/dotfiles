@@ -1,3 +1,5 @@
+-- TODO Emacs setup
+
 import Data.Map qualified as M
 import XMonad
 import XMonad.Hooks.DynamicLog
@@ -48,6 +50,8 @@ myModMask = mod4Mask
 
 myTerminal = "alacritty"
 
+-- TODO Layout I'm using stays active
+
 myLayoutHook =
   toggleLayouts (noBorders Full) $
   avoidStruts $
@@ -77,10 +81,11 @@ myStartupHook = do
 ------------------------------------------------------------------------
 
 -- Key bindings (matching dwm as closely as possible)
+-- TODO Keychords with dmenu or rofi scripts & fix keybinds
 myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
-  , ("M-d", spawn "rofi -show-icons -show drun")
+  , ("M-d", spawn "rofi -show drun")
   , ("M-S-w", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
   , ("M-o", spawn "buku-dmenu")
@@ -128,6 +133,9 @@ myKeys =
     ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
   , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
   , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+    -- Brightness controls
+  , ("<XF86MonBrightnessUp>", spawn "brightnessctl set +5%")
+  , ("<XF86MonBrightnessDown>", spawn "brightnessctl set 5%-")
   ]
     ++
     -- Standard TAGKEYS behavior (Mod+# to view, Mod+Shift+# to move)

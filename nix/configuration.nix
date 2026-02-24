@@ -4,30 +4,65 @@
   imports =
     [
       ./hardware-configuration.nix
+      # ./vm.nix
     ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "nixos";
-
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Asia/Karachi";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "ur_PK";
-    LC_IDENTIFICATION = "ur_PK";
-    LC_MEASUREMENT = "ur_PK";
-    LC_MONETARY = "ur_PK";
-    LC_NAME = "ur_PK";
-    LC_NUMERIC = "ur_PK";
-    LC_PAPER = "ur_PK";
-    LC_TELEPHONE = "ur_PK";
-    LC_TIME = "ur_PK";
+  users.users.hxt = {
+    isNormalUser = true;
+    description = "Hasnat Safdar";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      alacritty
+      brave
+      bat
+      kanata
+      libnotify
+      btop
+      nitch
+      fastfetch
+      thunar
+      lxappearance
+      gopass
+      xmobar
+      tealdeer
+      ddgr
+      w3m
+      haskell-language-server
+      dmenu
+      polybar
+      rofi
+      kitty
+      picom
+      mpv
+      clock-rs
+      zathura
+      yazi
+      lf
+      stow
+      aria2
+      cava
+      dunst
+      tmux
+      fzf
+      lazygit
+      eza
+      zoxide
+      xwallpaper
+      nitrogen
+      hyprpaper
+      swww
+      hugo
+      buku
+    ];
   };
+
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    bc
+    pulseaudio
+    brightnessctl
+  ];
 
   services = {
   # picom.enable = true;
@@ -59,11 +94,6 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-  };
-
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
   };
 
   services.pulseaudio.enable = false;
@@ -98,53 +128,6 @@
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-  users.users.hxt = {
-    isNormalUser = true;
-    description = "Hasnat Safdar";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      alacritty
-      brave
-      bat
-      kanata
-      libnotify
-      btop
-      nitch
-      fastfetch
-      lxappearance
-      gopass
-      xmobar
-      tealdeer
-      ddgr
-      w3m
-      haskell-language-server
-      dmenu
-      polybar
-      rofi
-      kitty
-      picom
-      clock-rs
-      zathura
-      yazi
-      lf
-      stow
-      aria2
-      cava
-      dunst
-      tmux
-      fzf
-      lazygit
-      eza
-      zoxide
-      xwallpaper
-      nitrogen
-      hyprpaper
-      swww
-      hugo
-      buku
-    ];
-  };
 
   services.kanata = {
     enable = true;
@@ -188,15 +171,36 @@
     nerd-fonts.jetbrains-mono
   ];
 
-  nixpkgs.config.allowUnfree = true;
+  networking.hostName = "nixos";
 
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    pulseaudio
-  ];
+  networking.networkmanager.enable = true;
+
+  time.timeZone = "Asia/Karachi";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "ur_PK";
+    LC_IDENTIFICATION = "ur_PK";
+    LC_MEASUREMENT = "ur_PK";
+    LC_MONETARY = "ur_PK";
+    LC_NAME = "ur_PK";
+    LC_NUMERIC = "ur_PK";
+    LC_PAPER = "ur_PK";
+    LC_TELEPHONE = "ur_PK";
+    LC_TIME = "ur_PK";
+  };
+
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
 }

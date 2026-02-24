@@ -10,8 +10,8 @@ vim.keymap.set('i', '{', '{}<Esc>i')
 
 vim.keymap.set('n', '<leader>a', ':split | terminal<CR>', { desc = 'Open a termin[a]l' })
 
-vim.keymap.set('n', '<C-j>', ':m .+1<CR>==')
-vim.keymap.set('n', '<C-k>', ':m .-2<CR>==')
+vim.keymap.set('n', '<C-j>', ':m .+1<CR>==', { silent = true })
+vim.keymap.set('n', '<C-k>', ':m .-2<CR>==', { silent = true })
 
 vim.keymap.set('n', '<leader>ep', ':w<CR>:!python %<CR>', { noremap = true, silent = true })
 
@@ -30,6 +30,8 @@ vim.keymap.set('n', '<leader>li', 'i[]()<Left><Left><Left><Esc>a')
 vim.keymap.set('v', '<leader>li', '"ac[<C-r>"]()<Esc><Left>a')
 vim.keymap.set('n', '<leader>lp', 'i[]()<Left><Esc>pF[a')
 vim.keymap.set('v', '<leader>lp', '"ac[<C-r>"]()<Esc><Left>p')
+
+vim.keymap.set("n", "<leader>cx", ":!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save' })
 vim.keymap.set('n', '<leader>q', ':quit<CR>', { desc = 'Quit' })
