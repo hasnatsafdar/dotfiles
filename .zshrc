@@ -178,7 +178,7 @@ alias mdwm='cd ~/projects/dwm; sudo make clean install; cd -';
 alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
 alias speedtest='speedtest-cli --bytes'
 alias s='BROWSER=w3m ddgr'
-alias tmn='tmux new -s'
+alias t='tmux new -s'
 alias update='sudo dnf update -y'
 alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"
 alias xrc='nvim ~/.config/xmonad/xmonad.hs'

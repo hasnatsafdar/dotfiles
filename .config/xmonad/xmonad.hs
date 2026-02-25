@@ -63,7 +63,7 @@ myLayoutHook =
   where
     tall = ResizableTall 1 (3 / 100) (11 / 20) []
 
--- Window rules (matching dwm config)
+-- -- Window rules
 -- myManageHook =
 --   composeAll
 --     [ className =? "Gimp" --> doFloat
@@ -82,7 +82,6 @@ myStartupHook = do
 ------------------------------------------------------------------------
 
 -- Key bindings
--- TODO Keychords with dmenu or rofi scripts & fix keybinds
 myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
@@ -97,7 +96,6 @@ myKeys =
   , ("C-<Print>", spawn "maim -s | xclip -selection clipboard -t image/png")
 
   , -- dmenu/rofi scripts
-
     ("M-p b", spawn "./.local/bin/buku-dmenu")
   , -- Window management
     ("M-S-c", kill)
@@ -107,7 +105,7 @@ myKeys =
   , -- Master area
     ("M-l", sendMessage Expand)
   , ("M-h", sendMessage Shrink)
-  , ("M-i", sendMessage (IncMasterN 1))
+  -- , ("M-i", sendMessage (IncMasterN 1))
   -- , ("M-p", sendMessage (IncMasterN (-1)))
   , -- Layout switching
        ("M-f", sendMessage ToggleLayout)
