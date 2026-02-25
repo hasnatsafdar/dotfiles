@@ -3,8 +3,8 @@
 
 Config {
    -- Appearance
-     font            = "JetBrainsMono Nerd Font Mono Bold 10"
-   , additionalFonts = [ "JetBrainsMono Nerd Font Mono 10" ]
+     font            = "JetBrainsMono Nerd Font Mono Bold 11"
+   , additionalFonts = [ "JetBrainsMono Nerd Font Mono 11" ]
    , bgColor         = "#1a1b26"
    , fgColor         = "#a9b1d6"
    , alpha           = 128

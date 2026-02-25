@@ -41,7 +41,8 @@ myFocusedBorderColor = colorCyn
 mySpacing = spacingWithEdge 3
 
 -- Workspaces
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+-- myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+myWorkspaces = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
 -- myWorkspaces = ["", "󰊯", "", "", "󰙯", "󱇤", "", "󱘶", "󰧮"]
 -- myWorkspaces = [ "\xf489"  , "\xf268"  , "\xe749" , "\xf198" , "\xf120" , "\xf1bc" , "\xf03d" , "\xf1fc" , "\xf11b" ]
 -- myWorkspaces = ["\xf489", "\xf02af", "\xe749", "\xf198", "\xf067f", "\xfb64", "\xf167", "\xf1f6", "\xf86e"]
@@ -63,15 +64,15 @@ myLayoutHook =
     tall = ResizableTall 1 (3 / 100) (11 / 20) []
 
 -- Window rules (matching dwm config)
-myManageHook =
-  composeAll
-    [ className =? "Gimp" --> doFloat
-    , className =? "Brave-browser" --> doShift "2"
-    , className =? "firefox" --> doShift "3"
-    , className =? "Slack" --> doShift "4"
-    , className =? "kdenlive" --> doShift "8"
-    ]
-    <+> insertPosition Below Newer
+-- myManageHook =
+--   composeAll
+--     [ className =? "Gimp" --> doFloat
+--     , className =? "Brave-browser" --> doShift "2"
+--     , className =? "firefox" --> doShift "3"
+--     , className =? "Slack" --> doShift "4"
+--     , className =? "kdenlive" --> doShift "8"
+--     ]
+--     <+> insertPosition Below Newer
 
 ------------------------------------------------------------------------
 myStartupHook = do
@@ -80,20 +81,26 @@ myStartupHook = do
 	spawnOnce "dunst &"
 ------------------------------------------------------------------------
 
--- Key bindings (matching dwm as closely as possible)
+-- Key bindings
 -- TODO Keychords with dmenu or rofi scripts & fix keybinds
 myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
-  , ("M-d", spawn "rofi -show drun")
-  , ("M-S-w", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
+  , ("M-S-<Return>", spawn "rofi -show drun")
+  , ("M-S-q", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
-  , ("M-o", spawn "buku-dmenu")
   , ("M-S-o", spawn "def-lookup")
-  , ("M-b", spawn "flatpak run app.zen_browser.zen")
+  , ("M-w", spawn "app.zen_browser.zen")
+  , ("M-S-w", spawn "brave")
+  , ("M-e e", spawn "thunar")
+  , ("M-e n", spawn "nautilus")
   , ("C-<Print>", spawn "maim -s | xclip -selection clipboard -t image/png")
+
+  , -- dmenu/rofi scripts
+
+    ("M-p b", spawn "./.local/bin/buku-dmenu")
   , -- Window management
-    ("M-q", kill)
+    ("M-S-c", kill)
   , ("M-j", windows W.focusDown)
   , ("M-k", windows W.focusUp)
   , ("M-<Tab>", windows W.focusDown)
@@ -101,35 +108,35 @@ myKeys =
     ("M-l", sendMessage Expand)
   , ("M-h", sendMessage Shrink)
   , ("M-i", sendMessage (IncMasterN 1))
-  , ("M-p", sendMessage (IncMasterN (-1)))
+  -- , ("M-p", sendMessage (IncMasterN (-1)))
   , -- Layout switching
-    ("M-t", sendMessage $ JumpToLayout "Tall")
-  , ("M-f", sendMessage $ JumpToLayout "Full")
-  , ("M-S-f", sendMessage ToggleLayout)
-  , ("M-c", sendMessage $ JumpToLayout "Spiral")
-  , ("M-S-<Return>", sendMessage NextLayout)
-  , ("M-n", sendMessage NextLayout)
+       ("M-f", sendMessage ToggleLayout)
+  ,    ("M-S-<Space>", withFocused toggleFloat)
+  --   ("M-t t", sendMessage $ JumpToLayout "Tall")
+  -- , ("M-t f", sendMessage $ JumpToLayout "Full")
+  -- , ("M-t s", sendMessage $ JumpToLayout "Spiral")
+  -- , ("M-S-<Return>", sendMessage NextLayout)
+  -- , ("M-n", sendMessage NextLayout)
   , -- Floating
-    ("M-S-<Space>", withFocused toggleFloat)
-  , -- Gaps (z to increase, x to decrease, a to toggle)
-    ("M-z", incWindowSpacing 3)
-  , ("M-x", decWindowSpacing 3)
-  , ("M-a", toggleWindowSpacingEnabled >> toggleScreenSpacingEnabled)
+  -- Gaps (z to increase, x to decrease, a to toggle)
+  --   ("M-z", incWindowSpacing 3)
+  -- , ("M-x", decWindowSpacing 3)
+    ("M-a", toggleWindowSpacingEnabled >> toggleScreenSpacingEnabled)
   , ("M-S-a", setWindowSpacing (Border 3 3 3 3) >> setScreenSpacing (Border 3 3 3 3))
   , -- Quit/Restart
     ("M-S-r", spawn "xmonad --recompile && xmonad --restart")
   , -- Keychords for tag navigation (Mod+Space then number)
-    ("M-<Space> 1", windows $ W.greedyView "1")
-  , ("M-<Space> 2", windows $ W.greedyView "2")
-  , ("M-<Space> 3", windows $ W.greedyView "3")
-  , ("M-<Space> 4", windows $ W.greedyView "4")
-  , ("M-<Space> 5", windows $ W.greedyView "5")
-  , ("M-<Space> 6", windows $ W.greedyView "6")
-  , ("M-<Space> 7", windows $ W.greedyView "7")
-  , ("M-<Space> 8", windows $ W.greedyView "8")
-  , ("M-<Space> 9", windows $ W.greedyView "9")
-  , ("M-<Space> f", spawn "firefox")
-  , -- Volume controls
+  --   ("M-<Space> 1", windows $ W.greedyView "1")
+  -- , ("M-<Space> 2", windows $ W.greedyView "2")
+  -- , ("M-<Space> 3", windows $ W.greedyView "3")
+  -- , ("M-<Space> 4", windows $ W.greedyView "4")
+  -- , ("M-<Space> 5", windows $ W.greedyView "5")
+  -- , ("M-<Space> 6", windows $ W.greedyView "6")
+  -- , ("M-<Space> 7", windows $ W.greedyView "7")
+  -- , ("M-<Space> 8", windows $ W.greedyView "8")
+  -- , ("M-<Space> 9", windows $ W.greedyView "9")
+  -- , ("M-<Space> f", spawn "firefox")
+    -- Volume controls
     ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
   , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
   , ("<XF86AudioMute>", spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
@@ -182,7 +189,7 @@ myConfig =
     , normalBorderColor = myNormalBorderColor
     , focusedBorderColor = myFocusedBorderColor
     , layoutHook = myLayoutHook
-    , manageHook = myManageHook <+> manageDocks
+    -- , manageHook = myManageHook <+> manageDocks
     , startupHook = myStartupHook
     }
     `additionalKeysP` myKeys
