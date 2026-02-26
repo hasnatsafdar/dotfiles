@@ -75,8 +75,8 @@
 
   services.mpd = {
     enable = true;
-    musicDirectory = "/home/hxt/Music";
-    network.listenAddress = "127.0.0.1";
+    settings.music_directory = "/home/hxt/Music";
+    settings.bind_to_address = "127.0.0.1";
   };
 
   programs.nh = {
