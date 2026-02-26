@@ -15,10 +15,14 @@
       alacritty
       brave
       obs-studio
+      ffmpeg
+      yt-dlp
       obsidian
       bat
       kanata
       emacs
+      mpd
+      mpc
       fastfetch btop nitch
       thunar
       lxappearance
@@ -37,11 +41,13 @@
       clock-rs
       zathura
       yazi lf
+      imagemagick
       eza
       ueberzugpp
       stow
       aria2
       cava
+      rmpc
       dunst libnotify
       tmux
       fzf
@@ -66,6 +72,12 @@
     pulseaudio
     brightnessctl
   ];
+
+  services.mpd = {
+    enable = true;
+    musicDirectory = "/home/hxt/Music";
+    network.listenAddress = "127.0.0.1";
+  };
 
   programs.nh = {
     enable = true;

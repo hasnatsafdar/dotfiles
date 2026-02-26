@@ -1,6 +1,9 @@
 [general]
 import = [
-    "~/.config/alacritty/ayu_dark.toml"
+    "./ayu_dark.toml"
+    # "./nord.toml"
+    # "./catppuccin-mocha.toml"
+    # "./gruvbox_dark.toml"
 ]
 
 [window]
