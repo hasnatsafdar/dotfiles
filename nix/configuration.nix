@@ -14,19 +14,18 @@
     packages = with pkgs; [
       alacritty
       brave
+      obs-studio
+      obsidian
       bat
       kanata
-      libnotify
-      btop
-      nitch
-      fastfetch
+      emacs
+      fastfetch btop nitch
       thunar
       lxappearance
       gopass
       xmobar
       tealdeer
-      ddgr
-      w3m
+      ddgr w3m
       haskell-language-server
       dmenu
       polybar
@@ -38,30 +37,31 @@
       clock-rs
       zathura
       yazi lf
+      eza
       ueberzugpp
       stow
       aria2
       cava
-      dunst
+      dunst libnotify
       tmux
       fzf
       lazygit
-      eza
       zoxide
-      xwallpaper
-      nitrogen
-      hyprpaper
-      swww
+      xwallpaper nitrogen
+      hyprpaper swww
       hugo
       buku
     ];
   };
 
   environment.systemPackages = with pkgs; [
+    coreutils
     nix-output-monitor
     vim
     wget
     xclip
+    ripgrep
+    fd
     bc
     pulseaudio
     brightnessctl
@@ -207,6 +207,7 @@
   };
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

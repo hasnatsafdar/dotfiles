@@ -25,7 +25,3 @@ blinking = "Always"
 
 [selection]
 save_to_clipboard = true
-
-#[terminal.shell]
-#program = "/usr/bin/fish"
-# TODO add image preview usng uzb++ 

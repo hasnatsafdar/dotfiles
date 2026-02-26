@@ -44,45 +44,20 @@ bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 export KEYTIMEOUT=1
 
-# Edit line in vim with ctrl-e:
+# Edit line in vim with ctrl-x:
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^x' edit-command-line
 
-# # Change cursor shape for different vi modes.
-# function zle-keymap-select {
-#   if [[ ${KEYMAP} == vicmd ]] ||
-#      [[ $1 = 'block' ]]; then
-#     echo -ne '\e[1 q'
-#   elif [[ ${KEYMAP} == main ]] ||
-#        [[ ${KEYMAP} == viins ]] ||
-#        [[ ${KEYMAP} = '' ]] ||
-#        [[ $1 = 'beam' ]]; then
-#     echo -ne '\e[5 q'
-#   fi
-# }
-# zle -N zle-keymap-select
-# zle-line-init() {
-#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-#     echo -ne "\e[5 q"
-# }
-# zle -N zle-line-init
-# echo -ne '\e[5 q' # Use beam shape cursor on startup.
-# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
-
-y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  command yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd < "$tmp"
-  [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
+function y() {
+    local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r cwd < "$tmp"
+    [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
 }
 
-y-widget() {
-  y
-}
-
-zle -N y-widget
-bindkey '\eo' y-widget
+zle -N y
+bindkey '^[o' y
 
 # Fuzzy find stuff and open in vim
 fzf-preview-widget() {
@@ -178,7 +153,7 @@ alias mdwm='cd ~/projects/dwm; sudo make clean install; cd -';
 alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
 alias speedtest='speedtest-cli --bytes'
 alias s='BROWSER=w3m ddgr'
-alias t='tmux new -s'
+alias tns='tmux new -s'
 alias update='sudo dnf update -y'
 alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"
 alias xrc='nvim ~/.config/xmonad/xmonad.hs'

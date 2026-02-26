@@ -41,8 +41,8 @@ myFocusedBorderColor = colorCyn
 mySpacing = spacingWithEdge 3
 
 -- Workspaces
--- myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-myWorkspaces = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+-- myWorkspaces = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
 -- myWorkspaces = ["", "󰊯", "", "", "󰙯", "󱇤", "", "󱘶", "󰧮"]
 -- myWorkspaces = [ "\xf489"  , "\xf268"  , "\xe749" , "\xf198" , "\xf120" , "\xf1bc" , "\xf03d" , "\xf1fc" , "\xf11b" ]
 -- myWorkspaces = ["\xf489", "\xf02af", "\xe749", "\xf198", "\xf067f", "\xfb64", "\xf167", "\xf1f6", "\xf86e"]
@@ -86,7 +86,7 @@ myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
   , ("M-S-<Return>", spawn "rofi -show drun")
-  , ("M-S-q", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
+  , ("M-q", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
   , ("M-S-o", spawn "def-lookup")
   , ("M-w", spawn "app.zen_browser.zen")
