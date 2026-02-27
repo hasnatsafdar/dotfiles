@@ -12,53 +12,42 @@
     description = "Hasnat Safdar";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      alacritty
+      # Terminals
+      alacritty kitty
+      # Browsers
       brave
-      obs-studio
-      ffmpeg
-      yt-dlp
-      obsidian
-      bat
-      kanata
-      emacs
-      mpd
-      mpc
-      fastfetch btop nitch
-      thunar
-      lxappearance
-      gopass
-      xmobar
-      tealdeer
-      ddgr w3m
-      haskell-language-server
-      dmenu
-      polybar
-      rofi
-      rofi-emoji
-      kitty
-      picom
-      mpv
-      clock-rs
-      zathura
-      yazi lf
-      imagemagick
-      eza
-      ueberzugpp
-      stow
-      aria2
-      cava
-      rmpc
+      # Editors / Writing
+      emacs obsidian
+      # Media creation / recording / playback
+      obs-studio ffmpeg yt-dlp mpv cava mpd mpc rmpc
+      # File managers
+      thunar yazi lf
+      # Window manager bars / launchers
+      xmobar polybar dmenu rofi rofi-emoji
+      # Notifications
       dunst libnotify
-      tmux
-      fzf
-      lazygit
-      zoxide
-      xwallpaper nitrogen
-      hyprpaper swww
-      hugo
-      buku
-    ];
-  };
+      # Appearance / theming / compositing
+      lxappearance picom
+      # Wallpapers
+      xwallpaper nitrogen hyprpaper swww
+      # CLI utilities (modern replacements & enhancements)
+      bat eza tealdeer fastfetch btop nitch
+      # Search / web in terminal
+      ddgr w3m buku
+      # Dev tools
+      haskell-language-server hugo
+      # Git / session / shell helpers
+      lazygit tmux fzf zoxide stow
+      # Security / credentials
+      gopass
+      # Downloaders
+      aria2
+      # Image tools
+      imagemagick ueberzugpp
+      # Misc
+      kanata clock-rs
+      ];
+    };
 
   environment.systemPackages = with pkgs; [
     coreutils
@@ -66,8 +55,7 @@
     vim
     wget
     xclip
-    ripgrep
-    fd
+    ripgrep fd
     bc
     pulseaudio
     brightnessctl
@@ -83,7 +71,7 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "/home/user/my-nixos-config"; # sets NH_OS_FLAKE variable for you
+    flake = "/home/hxt/nix"; # sets NH_OS_FLAKE variable for you
   };
 
   services = {
@@ -103,7 +91,7 @@
           hpkgs.xmonad
           hpkgs.xmonad-extras
           hpkgs.xmonad-contrib
-       ];
+      ];
      };
     };
    };
@@ -128,9 +116,9 @@
     jack.enable = true;
   };
 
-    programs.zsh = {
-	enable = true;
-    };
+  programs.zsh = {
+    enable = true;
+  };
 
   users.defaultUserShell = pkgs.zsh;
   environment.shells = [ pkgs.zsh ];
@@ -146,7 +134,7 @@
   programs.git.config = {
     user.name = "hasnatsafdar";
     user.email = "hasnat.professional@gmail.com";
-    };
+  };
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
@@ -189,8 +177,10 @@
     };
   };
 
-    fonts.packages = with pkgs; [
+  fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    poppins
+    inter
   ];
 
   networking.hostName = "nixos";
@@ -223,7 +213,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
-}
+  }
