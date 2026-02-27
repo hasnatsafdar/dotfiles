@@ -81,6 +81,14 @@ myStartupHook = do
 	spawnOnce "dunst &"
 ------------------------------------------------------------------------
 
+-- TODO Setup lock screen and caffiene system
+-- TODO Blueberry and nmtui stuff
+-- TODO Set volume limit to not exceed 100%
+-- TODO Exec on boot the todo app (task warrior), the calender (calcurse) and the email (neomutt).
+-- TODO Setup Clipboard manager
+-- TODO redshift or something for nightlight
+-- TODO Setup pywal16
+
 -- Key bindings
 myKeys =
   -- Launch applications

@@ -19,7 +19,7 @@
       # Editors / Writing
       emacs obsidian
       # Media creation / recording / playback
-      obs-studio ffmpeg yt-dlp mpv cava mpd mpc rmpc
+      kdePackages.kdenlive obs-studio ffmpeg yt-dlp mpv cava mpd mpc rmpc
       # File managers
       thunar yazi lf
       # Window manager bars / launchers
@@ -37,7 +37,7 @@
       # Dev tools
       haskell-language-server hugo
       # Git / session / shell helpers
-      lazygit tmux fzf zoxide stow
+      lazygit lazydocker tmux fzf zoxide stow
       # Security / credentials
       gopass
       # Downloaders
@@ -45,7 +45,7 @@
       # Image tools
       imagemagick ueberzugpp
       # Misc
-      kanata clock-rs transmission_4
+      kanata clock-rs
       ];
     };
 
@@ -62,12 +62,19 @@
     brightnessctl
   ];
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.rootless = {
+  services.transmission = {
     enable = true;
-    setSocketVariable = true;
+    package = pkgs.transmission_4;
+  };
+  services.transmission.settings = {
+    download-dir = "${config.services.transmission.home}/Downloads";
   };
 
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = false;
+    setSocketVariable = true;
+  };
 
   services.mpd = {
     enable = true;
