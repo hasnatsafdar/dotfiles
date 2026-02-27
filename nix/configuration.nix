@@ -10,7 +10,7 @@
   users.users.hxt = {
     isNormalUser = true;
     description = "Hasnat Safdar";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       # Terminals
       alacritty kitty
@@ -45,13 +45,14 @@
       # Image tools
       imagemagick ueberzugpp
       # Misc
-      kanata clock-rs
+      kanata clock-rs transmission_4
       ];
     };
 
   environment.systemPackages = with pkgs; [
     coreutils
     nix-output-monitor
+    python315
     vim
     wget
     xclip
@@ -60,6 +61,13 @@
     pulseaudio
     brightnessctl
   ];
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
 
   services.mpd = {
     enable = true;
@@ -116,12 +124,13 @@
     jack.enable = true;
   };
 
-  programs.zsh = {
-    enable = true;
-  };
+  programs.zsh.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
-  environment.shells = [ pkgs.zsh ];
+
+  environment.shells = [
+    pkgs.zsh
+  ];
 
   programs.neovim.enable = true;
   environment.variables.EDITOR = "nvim";
