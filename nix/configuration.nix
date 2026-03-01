@@ -12,16 +12,11 @@
     description = "Hasnat Safdar";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
-      # Terminals
       alacritty kitty
-      # Browsers
-      brave
-      # Editors / Writing
+      brave qutebrowser
       emacs obsidian
-      # Media creation / recording / playback
       kdePackages.kdenlive obs-studio ffmpeg yt-dlp mpv cava mpd mpc rmpc
-      # File managers
-      thunar yazi lf
+      thunar yazi lf ncdu
       # Window manager bars / launchers
       xmobar polybar dmenu rofi rofi-emoji
       # Notifications
@@ -31,21 +26,16 @@
       # Wallpapers
       xwallpaper nitrogen hyprpaper swww
       # CLI utilities (modern replacements & enhancements)
-      bat eza tealdeer fastfetch btop nitch
-      # Search / web in terminal
+      bat eza tealdeer fastfetch btop nitch pywal16
       ddgr w3m buku
-      # Dev tools
-      haskell-language-server lua-language-server hugo
-      # Git / session / shell helpers
       lazygit lazydocker tmux fzf zoxide stow
-      # Security / credentials
       gopass
-      # Downloaders
-      aria2
-      # Image tools
-      imagemagick ueberzugpp
+      aria2 rsync localsend
+      imagemagick ueberzugpp flameshot
+      clock-rs calcurse neomutt
+      haskell-language-server lua-language-server hugo
       # Misc
-      kanata clock-rs
+      kanata
       ];
     };
 

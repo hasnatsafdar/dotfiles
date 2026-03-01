@@ -94,7 +94,7 @@ myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
   , ("M-S-<Return>", spawn "rofi -show drun")
-  , ("M-q", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
+  , ("M-S-x", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
   , ("M-S-o", spawn "def-lookup")
   , ("M-w", spawn "app.zen_browser.zen")
@@ -107,7 +107,7 @@ myKeys =
   , -- dmenu/rofi scripts
     ("M-p b", spawn "./.local/bin/buku-dmenu")
   , -- Window management
-    ("M-S-c", kill)
+    ("M-q", kill)
   , ("M-j", windows W.focusDown)
   , ("M-k", windows W.focusUp)
   , ("M-<Tab>", windows W.focusDown)

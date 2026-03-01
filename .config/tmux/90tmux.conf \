@@ -1,0 +1,1 @@
+bind -n M-l select-pane -R

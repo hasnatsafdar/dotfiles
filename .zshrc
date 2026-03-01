@@ -174,7 +174,7 @@ alias ffs='fastfetch -c ~/.config/fastfetch/fastfetch.jsonc'
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
-# ff 
+# ff
 nitch
 
 # Load aliases and shortcuts if existent.
