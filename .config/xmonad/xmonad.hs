@@ -99,6 +99,7 @@ myKeys =
   , ("M-S-o", spawn "def-lookup")
   , ("M-w", spawn "app.zen_browser.zen")
   , ("M-S-w", spawn "brave")
+  , ("M-n", spawn "obsidian")
   , ("M-e e", spawn "thunar")
   , ("M-e n", spawn "nautilus")
   , ("C-<Print>", spawn "maim -s | xclip -selection clipboard -t image/png")

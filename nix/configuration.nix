@@ -35,7 +35,7 @@
       # Search / web in terminal
       ddgr w3m buku
       # Dev tools
-      haskell-language-server hugo
+      haskell-language-server lua-language-server hugo
       # Git / session / shell helpers
       lazygit lazydocker tmux fzf zoxide stow
       # Security / credentials

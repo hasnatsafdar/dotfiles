@@ -113,7 +113,7 @@ function ex {
 fi
 }
 
-# aliases
+# Aliases
 
 # Navigation
 alias ..='cd ..'
