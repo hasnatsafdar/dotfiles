@@ -17,30 +17,26 @@
       emacs obsidian
       kdePackages.kdenlive obs-studio ffmpeg yt-dlp mpv cava mpd mpc rmpc
       thunar yazi lf ncdu
-      # Window manager bars / launchers
       xmobar polybar dmenu rofi rofi-emoji
-      # Notifications
       dunst libnotify
-      # Appearance / theming / compositing
       lxappearance picom
-      # Wallpapers
       xwallpaper nitrogen hyprpaper swww
-      # CLI utilities (modern replacements & enhancements)
-      bat eza tealdeer fastfetch btop nitch pywal16
+      bat eza tealdeer fastfetch btop nitch pywal16 fortune cowsay figlet lolcat
       ddgr w3m buku
       lazygit lazydocker tmux fzf zoxide stow
       gopass
       aria2 rsync localsend
-      imagemagick ueberzugpp flameshot
+      imagemagick ueberzugpp flameshot maim
       clock-rs calcurse neomutt
       haskell-language-server lua-language-server hugo
-      # Misc
       kanata
       ];
     };
 
   environment.systemPackages = with pkgs; [
     coreutils
+    cmake
+    unzip
     nix-output-monitor
     python315
     vim
@@ -48,8 +44,7 @@
     xclip
     ripgrep fd
     bc
-    pulseaudio
-    brightnessctl
+    pulseaudio brightnessctl
   ];
 
   services.transmission = {

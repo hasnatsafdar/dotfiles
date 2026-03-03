@@ -1,5 +1,3 @@
--- TODO Emacs setup
-
 import Data.Map qualified as M
 import XMonad
 import XMonad.Hooks.DynamicLog
@@ -41,7 +39,8 @@ myFocusedBorderColor = colorCyn
 mySpacing = spacingWithEdge 3
 
 -- Workspaces
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+myWorkspaces = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"]
+-- myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 -- myWorkspaces = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
 -- myWorkspaces = ["", "󰊯", "", "", "󰙯", "󱇤", "", "󱘶", "󰧮"]
 -- myWorkspaces = [ "\xf489"  , "\xf268"  , "\xe749" , "\xf198" , "\xf120" , "\xf1bc" , "\xf03d" , "\xf1fc" , "\xf11b" ]
@@ -78,14 +77,15 @@ myLayoutHook =
 myStartupHook = do
         spawnOnce "nitrogen --restore &"
         spawnOnce "picom &"
-	spawnOnce "dunst &"
+        spawnOnce "dunst &"
+        spawnOnce "/usr/bin/emacs --daemon"
 ------------------------------------------------------------------------
 
+-- TODO Setup Clipboard manager
+-- TODO Set volume limit to not exceed 100%
 -- TODO Setup lock screen and caffiene system
 -- TODO Blueberry and nmtui stuff
--- TODO Set volume limit to not exceed 100%
--- TODO Exec on boot the todo app (task warrior), the calender (calcurse) and the email (neomutt).
--- TODO Setup Clipboard manager
+-- TODO Setup + Exec on boot the todo app (task warrior), the calender (calcurse) and the email (neomutt).
 -- TODO redshift or something for nightlight
 -- TODO Setup pywal16
 
@@ -93,16 +93,19 @@ myStartupHook = do
 myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
+  , ("M-n", spawn (myTerminal ++ " -e nvim"))
   , ("M-S-<Return>", spawn "rofi -show drun")
   , ("M-S-x", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
   , ("M-S-o", spawn "def-lookup")
   , ("M-w", spawn "app.zen_browser.zen")
   , ("M-S-w", spawn "brave")
-  , ("M-n", spawn "obsidian")
-  , ("M-e e", spawn "thunar")
-  , ("M-e n", spawn "nautilus")
+  , ("M-o", spawn "obsidian")
+  , ("M-e", spawn "emacsclient -c -a 'emacs'")
+  , ("M-f f", spawn "thunar")
+  , ("M-f n", spawn "nautilus")
   , ("C-<Print>", spawn "maim -s | xclip -selection clipboard -t image/png")
+  , ("<Print>", spawn "flameshot gui")
 
   , -- dmenu/rofi scripts
     ("M-p b", spawn "./.local/bin/buku-dmenu")
@@ -114,35 +117,14 @@ myKeys =
   , -- Master area
     ("M-l", sendMessage Expand)
   , ("M-h", sendMessage Shrink)
-  -- , ("M-i", sendMessage (IncMasterN 1))
-  -- , ("M-p", sendMessage (IncMasterN (-1)))
   , -- Layout switching
-       ("M-f", sendMessage ToggleLayout)
+       ("M-S-f", sendMessage ToggleLayout)
   ,    ("M-S-<Space>", withFocused toggleFloat)
-  --   ("M-t t", sendMessage $ JumpToLayout "Tall")
-  -- , ("M-t f", sendMessage $ JumpToLayout "Full")
-  -- , ("M-t s", sendMessage $ JumpToLayout "Spiral")
-  -- , ("M-S-<Return>", sendMessage NextLayout)
-  -- , ("M-n", sendMessage NextLayout)
-  , -- Floating
-  -- Gaps (z to increase, x to decrease, a to toggle)
-  --   ("M-z", incWindowSpacing 3)
-  -- , ("M-x", decWindowSpacing 3)
-    ("M-a", toggleWindowSpacingEnabled >> toggleScreenSpacingEnabled)
+  , ("M-a", toggleWindowSpacingEnabled >> toggleScreenSpacingEnabled)
   , ("M-S-a", setWindowSpacing (Border 3 3 3 3) >> setScreenSpacing (Border 3 3 3 3))
   , -- Quit/Restart
-    ("M-S-r", spawn "xmonad --recompile && xmonad --restart")
+    ("M-S-r", spawn "xmonad --recompile; xmonad --restart")
   , -- Keychords for tag navigation (Mod+Space then number)
-  --   ("M-<Space> 1", windows $ W.greedyView "1")
-  -- , ("M-<Space> 2", windows $ W.greedyView "2")
-  -- , ("M-<Space> 3", windows $ W.greedyView "3")
-  -- , ("M-<Space> 4", windows $ W.greedyView "4")
-  -- , ("M-<Space> 5", windows $ W.greedyView "5")
-  -- , ("M-<Space> 6", windows $ W.greedyView "6")
-  -- , ("M-<Space> 7", windows $ W.greedyView "7")
-  -- , ("M-<Space> 8", windows $ W.greedyView "8")
-  -- , ("M-<Space> 9", windows $ W.greedyView "9")
-  -- , ("M-<Space> f", spawn "firefox")
     -- Volume controls
     ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
   , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
@@ -202,7 +184,7 @@ myConfig =
     `additionalKeysP` myKeys
 
 -- XMobar status bar configuration
-myStatusBar = statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure myXmobarPP)
+myStatusBar = statusBarProp "xmobar ~/.config/xmobar/xmobar.hs" (pure myXmobarPP)
 
 main :: IO ()
 main = xmonad . ewmhFullscreen . ewmh . withEasySB myStatusBar defToggleStrutsKey $ myConfig

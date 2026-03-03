@@ -2,7 +2,7 @@ vim.g.mapleader = " "
 
 vim.keymap.set('i', 'jj', '<Esc>')
 
-vim.keymap.set("n", "<leader>cd", vim.cmd.Ex)
+-- vim.keymap.set("n", "<leader>cd", oil.toggle_float, {})
 
 vim.keymap.set('i', '(', '()<Esc>i')
 vim.keymap.set('i', '[', '[]<Esc>i')
