@@ -1,20 +1,18 @@
 # Actually Functional Dotfiles for my **󱄅  NiXMonad Workstation** PC.
 
+<p align="left">
+  <img src="https://img.shields.io/badge/NixOS-5277C3?style=for-the-badge&logo=nixos&logoColor=white" />
+  <img src="https://img.shields.io/badge/XMonad-4E4E4E?style=for-the-badge&logo=haskell&logoColor=white" />
+</p>
+
 ![Screenshot1](screenshots/nixmonad.jpg)
 ![Screenshot2](screenshots/nixmonad_1.jpg)
 ![Screenshot2](screenshots/nixmonad_2.jpg)
 
 ---
 
-#  NixOS + XMonad Dotfiles
-
 My personal **NixOS + XMonad** setup.
 Minimal, keyboard-driven, flake-based, and reproducible.
-
-<p align="left">
-  <img src="https://img.shields.io/badge/NixOS-5277C3?style=for-the-badge&logo=nixos&logoColor=white" />
-  <img src="https://img.shields.io/badge/XMonad-4E4E4E?style=for-the-badge&logo=haskell&logoColor=white" />
-</p>
 
 ## 🧰 Stack
 
