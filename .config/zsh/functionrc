@@ -1,7 +1,67 @@
-# Auto ls on cd
+# # Auto ls on cd
+# cx() {
+#   cd "$@" || return
+#   eza -lh --icons=always --group-directories-first | head -n 50
+# }
 cx() {
-  cd "$@" || return
-  eza -lh --icons=always --group-directories-first | head -n 50
+    builtin cd "$@" || return
+    [[ $- == *i* ]] && eza --icons --group-directories-first --color=always
+}
+
+# Yazi function
+function y() {
+    local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r cwd < "$tmp"
+    [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+}
+
+zle -N y
+bindkey '^[o' y
+
+# Fuzzy find stuff and open in vim
+fzf-preview-widget() {
+  find . -type f | fzf \
+    --preview 'bat --style=numbers --color=always --line-range :500 {}' \
+    --bind "enter:become($EDITOR {})"
+}
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) echo -ne '\e[1 q';;      # block
+        viins|main) echo -ne '\e[5 q';; # beam
+    esac
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+# Convert any image to high-quality JPG (stripped metadata)
+img2jpg() {
+  magick "$1" -background white -alpha remove -quality 95 -strip "${1%.*}.jpg"
+}
+
+# Convert any image to small JPG (for online sharing)
+img2jpg-small() {
+  magick "$1" -resize "1080x>" -background white -alpha remove -quality 95 -strip "${1%.*}.jpg"
+}
+
+# Convert any image to compressed-but-lossless PNG
+img2png() {
+  magick "$1" \
+    -strip \
+    -define png:compression-filter=5 \
+    -define png:compression-level=9 \
+    -define png:compression-strategy=1 \
+    -define png:exclude-chunk=all \
+    "${1%.*}.png"
 }
 
 ### ARCHIVE EXTRACTION
@@ -43,37 +103,41 @@ function extract {
 fi
 }
 
-# Yazi function
-function y() {
-    local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
-    command yazi "$@" --cwd-file="$tmp"
-    IFS= read -r cwd < "$tmp"
-    [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
-    rm -f -- "$tmp"
+# Compression
+compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
+alias decompress="tar -xzf"
+
+# Write ISO file to SD card
+iso2sd() {
+  if [ $# -ne 2 ]; then
+    echo "Usage: iso2sd <input_file> <output_device>"
+    echo "Example: iso2sd ~/Downloads/ubuntu-25.04-desktop-amd64.iso /dev/sda"
+    echo -e "\nAvailable SD cards:"
+    lsblk -d -o NAME | grep -E '^sd[a-z]' | awk '{print "/dev/"$1}'
+  else
+    sudo dd if="$1" of="$2" bs=4M status=progress conv=fsync
+    sudo eject "$2"
+  fi
 }
 
-zle -N y
-bindkey '^[o' y
-
-# Fuzzy find stuff and open in vim
-fzf-preview-widget() {
-  find . -type f | fzf \
-    --preview 'bat --style=numbers --color=always --line-range :500 {}' \
-    --bind "enter:become($EDITOR {})"
+# Format an entire drive for a single partition using ext4
+format-drive() {
+  if [ $# -ne 2 ]; then
+    echo "Usage: format-drive <device> <name>"
+    echo "Example: format-drive /dev/sda 'My Stuff'"
+    echo -e "\nAvailable drives:"
+    lsblk -d -o NAME -n | awk '{print "/dev/"$1}'
+  else
+    echo "WARNING: This will completely erase all data on $1 and label it '$2'."
+    read -rp "Are you sure you want to continue? (y/N): " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+      sudo wipefs -a "$1"
+      sudo dd if=/dev/zero of="$1" bs=1M count=100 status=progress
+      sudo parted -s "$1" mklabel gpt
+      sudo parted -s "$1" mkpart primary ext4 1MiB 100%
+      sudo mkfs.ext4 -L "$2" "$([[ $1 == *"nvme"* ]] && echo "${1}p1" || echo "${1}1")"
+      sudo chmod -R 777 "/run/media/$USER/$2"
+      echo "Drive $1 formatted and labeled '$2'."
+    fi
+  fi
 }
-
-# Change cursor shape for different vi modes.
-function zle-keymap-select () {
-    case $KEYMAP in
-        vicmd) echo -ne '\e[1 q';;      # block
-        viins|main) echo -ne '\e[5 q';; # beam
-    esac
-}
-zle -N zle-keymap-select
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
-zle -N zle-line-init
-echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.

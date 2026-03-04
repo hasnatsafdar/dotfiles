@@ -21,7 +21,7 @@
       dunst libnotify
       lxappearance picom
       xwallpaper nitrogen hyprpaper swww
-      bat eza tealdeer fastfetch btop nitch pywal16 fortune cowsay figlet lolcat
+      tealdeer fastfetch btop bat oh-my-posh eza nitch pywal16 fortune cowsay figlet lolcat
       ddgr w3m buku
       lazygit lazydocker tmux fzf zoxide stow
       gopass
@@ -122,6 +122,7 @@
 
   environment.shells = [
     pkgs.zsh
+    pkgs.nushell
   ];
 
   programs.neovim.enable = true;
