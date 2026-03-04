@@ -13,6 +13,9 @@
 # autoload -U colors && colors
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M \
 # %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} %b "
+autoload -U colors && colors
+setopt PROMPT_SUBST
+PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)%F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
 
 # ╭─────────────────────╮
 # │       Exports       │
@@ -60,10 +63,9 @@ _comp_options+=(globdots) # Include hidden files.
 # ╰──────────────────────────────────────────────╯
 bindkey -v
 bindkey '^f' autosuggest-accept
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
+bindkey '^k' history-search-backward
+bindkey '^j' history-search-forward
 bindkey '^[w' kill-region
-# bindkey -e
 export KEYTIMEOUT=1
 
 # Edit line in vim with ctrl-v:
@@ -76,8 +78,9 @@ bindkey '^v' edit-command-line
 [ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
 [ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
 [ -f "$HOME/.config/zsh/plugmgrrc" ] && source "$HOME/.config/zsh/plugmgrrc"
+[ -f "$HOME/.config/zsh/promptrc" ] && source "$HOME/.config/zsh/promptrc"
 
-eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/negligible.omp.json)"
+# eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/amro.omp.json)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
