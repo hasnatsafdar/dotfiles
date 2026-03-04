@@ -1,6 +1,7 @@
 # ╭──────────────────────────────────────────────╮
 # │           Vi mode & Other Keybinds           │
 # ╰──────────────────────────────────────────────╯
+
 bindkey -v
 bindkey '^f' autosuggest-accept
 bindkey '^k' history-search-backward

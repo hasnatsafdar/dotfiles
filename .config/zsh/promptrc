@@ -1,3 +1,8 @@
+# ╭──────────────────╮
+# │      Prompt      │
+# ╰──────────────────╯
+
+# ----------------------------------------- #
 git_prompt_info() {
   local branch dirty
   branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) || return
@@ -8,14 +13,17 @@ git_prompt_info() {
 
   echo "%F{green} $branch%f$dirty"
 }
+# ----------------------------------------- #
 
 exit_status() {
   if [[ $? -ne 0 ]]; then
     echo "%F{red}✘ %?%f "
   fi
 }
+# ----------------------------------------- #
 
 context_info() {
   [[ -n "$SSH_CONNECTION" ]] && echo "%F{magenta}ssh%f "
   [[ $EUID -eq 0 ]] && echo "%F{red}root%f "
 }
+# ----------------------------------------- #

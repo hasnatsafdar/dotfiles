@@ -1,14 +1,13 @@
-# # Auto ls on cd
-# cx() {
-#   cd "$@" || return
-#   eza -lh --icons=always --group-directories-first | head -n 50
-# }
+# ╭─────────────────────╮
+# │      Functions      │
+# ╰─────────────────────╯
+
 cx() {
     builtin cd "$@" || return
     [[ $- == *i* ]] && eza --icons --group-directories-first --color=always
 }
 
-# Yazi function
+# Yazi
 function y() {
     local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
     command yazi "$@" --cwd-file="$tmp"
