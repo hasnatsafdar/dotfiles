@@ -2,28 +2,31 @@
 # │      Prompt      │
 # ╰──────────────────╯
 
-# ----------------------------------------- #
+# ---- Exit Status ----
+exit_status() {
+  local code=$1
+  [[ $code -ne 0 ]] && echo "%F{#F07178}✘ $code%f "
+}
+
+# ---- Git Info ----
 git_prompt_info() {
   local branch dirty
   branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) || return
 
   if ! git diff --quiet 2>/dev/null; then
-    dirty=" %F{red}✗%f"
+    dirty=" %F{#EA6C73}✗%f"
   fi
 
-  echo "%F{green} $branch%f$dirty"
+  echo "%F{#91B362} $branch%f$dirty"
 }
-# ----------------------------------------- #
 
-exit_status() {
-  if [[ $? -ne 0 ]]; then
-    echo "%F{red}✘ %?%f "
-  fi
-}
-# ----------------------------------------- #
-
+# ---- Context Info ----
 context_info() {
-  [[ -n "$SSH_CONNECTION" ]] && echo "%F{magenta}ssh%f "
-  [[ $EUID -eq 0 ]] && echo "%F{red}root%f "
+  [[ -n "$SSH_CONNECTION" ]] && echo "%F{#90E1C6}ssh%f "
+  [[ $EUID -eq 0 ]] && echo "%F{#F9AF4F}root%f "
 }
-# ----------------------------------------- #
+
+# ---- Preserve Exit Code ----
+precmd() {
+  LAST_EXIT_CODE=$?
+}

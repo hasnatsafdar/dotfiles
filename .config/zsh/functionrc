@@ -2,9 +2,9 @@
 # │      Functions      │
 # ╰─────────────────────╯
 
-cx() {
-    builtin cd "$@" || return
-    [[ $- == *i* ]] && eza --icons --group-directories-first --color=always
+# Auto ls when cd into a dir
+chpwd(){
+  ls
 }
 
 # Yazi

@@ -94,7 +94,7 @@ myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
   , ("M-n", spawn (myTerminal ++ " -e nvim"))
-  , ("M-S-<Return>", spawn "rofi -show drun")
+  , ("M-d", spawn "rofi -show drun")
   , ("M-S-x", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
   , ("M-S-o", spawn "def-lookup")

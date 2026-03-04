@@ -14,8 +14,8 @@ autoload -U colors && colors
 # PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)\
 # %F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
 
-PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)%F{#53BDFA}%~%f $(git_prompt_info)'$'\n''%F{#F07178}❯ %f'
-
+# PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)%F{#53BDFA}%~%f $(git_prompt_info)'$'\n''%F{#F07178}❯ %f'
+#
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M \
 # %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} %b "
 
@@ -63,15 +63,15 @@ _comp_options+=(globdots)
 # ╭──────────────────────────────────────────────╮
 # │  Source Zsh Plugins, Prompt & other configs  │
 # ╰──────────────────────────────────────────────╯
-[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
-[ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
 [ -f "$HOME/.config/zsh/plugmgrrc" ] && source "$HOME/.config/zsh/plugmgrrc"
 [ -f "$HOME/.config/zsh/promptrc" ] && source "$HOME/.config/zsh/promptrc"
+[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
+[ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
 [ -f "$HOME/.config/zsh/virc" ] && source "$HOME/.config/zsh/virc"
 
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-# eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/amro.omp.json)"
+eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
 
 add_plugin zsh-users/zsh-syntax-highlighting
 add_plugin zsh-users/zsh-autosuggestions
