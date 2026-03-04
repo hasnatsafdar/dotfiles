@@ -6,6 +6,7 @@
       ./hardware-configuration.nix
       # ./vm.nix
     ];
+# TODO Nvidia Drivers 470xx setup
 
   users.users.hxt = {
     isNormalUser = true;

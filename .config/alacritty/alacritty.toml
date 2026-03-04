@@ -9,7 +9,6 @@ import = [
 [window]
 decorations = "None"
 opacity = 0.9
-# opacity = 1
 
 [window.padding]
 x = 10
