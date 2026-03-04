@@ -1,4 +1,4 @@
-# Actually Functional Dotfiles for my **󱄅  NiXMonad Workstation** PC.
+# Actually Functional Dotfiles for my **NiXMonad Workstation** PC.
 
 <p align="left">
   <img src="https://img.shields.io/badge/NixOS-5277C3?style=for-the-badge&logo=nixos&logoColor=white" />
