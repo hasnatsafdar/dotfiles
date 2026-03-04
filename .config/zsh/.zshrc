@@ -10,12 +10,12 @@
 # ╭─────────────────────────────────────────────╮
 # │       Enable colors and change prompt       │
 # ╰─────────────────────────────────────────────╯
-# autoload -U colors && colors
+autoload -U colors && colors
+PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)\
+%F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
+
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M \
 # %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} %b "
-autoload -U colors && colors
-setopt PROMPT_SUBST
-PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)%F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
 
 # ╭─────────────────────╮
 # │       Exports       │
@@ -42,12 +42,12 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
+setopt PROMPT_SUBST
 setopt autocd
 
 # ╭─────────────────────────────────────────────╮
 # │              Auto/Tab complete              │
 # ╰─────────────────────────────────────────────╯
-# Basic auto/tab complete:
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
@@ -56,21 +56,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons $realpath'
 autoload -U compinit
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots) # Include hidden files.
-
-# ╭──────────────────────────────────────────────╮
-# │           Vi mode & Other Keybinds           │
-# ╰──────────────────────────────────────────────╯
-bindkey -v
-bindkey '^f' autosuggest-accept
-bindkey '^k' history-search-backward
-bindkey '^j' history-search-forward
-bindkey '^[w' kill-region
-export KEYTIMEOUT=1
-
-# Edit line in vim with ctrl-v:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^v' edit-command-line
+_comp_options+=(globdots)
 
 # ╭──────────────────────────────────────────────╮
 # │  Source Zsh Plugins, Prompt & other configs  │
@@ -79,10 +65,11 @@ bindkey '^v' edit-command-line
 [ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
 [ -f "$HOME/.config/zsh/plugmgrrc" ] && source "$HOME/.config/zsh/plugmgrrc"
 [ -f "$HOME/.config/zsh/promptrc" ] && source "$HOME/.config/zsh/promptrc"
+[ -f "$HOME/.config/zsh/virc" ] && source "$HOME/.config/zsh/virc"
 
-# eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/amro.omp.json)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+# eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/amro.omp.json)"
 
 add_plugin zsh-users/zsh-syntax-highlighting
 add_plugin zsh-users/zsh-autosuggestions
