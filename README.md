@@ -4,8 +4,6 @@
 ![Screenshot2](screenshots/nixmonad_1.jpg)
 ![Screenshot2](screenshots/nixmonad_2.jpg)
 
-Here’s a shorter, clean, slightly informal version:
-
 ---
 
 #  NixOS + XMonad Dotfiles
