@@ -11,6 +11,11 @@
 My personal **NixOS + XMonad** setup.
 Minimal, keyboard-driven, flake-based, and reproducible.
 
+<p align="left">
+  <img src="https://img.shields.io/badge/NixOS-5277C3?style=for-the-badge&logo=nixos&logoColor=white" />
+  <img src="https://img.shields.io/badge/XMonad-4E4E4E?style=for-the-badge&logo=haskell&logoColor=white" />
+</p>
+
 ## 🧰 Stack
 
 * NixOS (flakes)
