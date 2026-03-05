@@ -31,6 +31,7 @@ export FZF_ALT_C_OPTS="--preview 'eza --icons --color=always {}'"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH=/home/hxt/node_modules/opencode-linux-x64/bin:$PATH
+export PATH=/home/hxt/.local/share/nvim/site/:$PATH
 
 # ╭─────────────────────────────────────╮
 # │          History & Options          │
@@ -85,4 +86,4 @@ add_plugin zsh-users/zsh-completions
 add_plugin Aloxaf/fzf-tab
 
 # Misc stuff
-nitch
+# nitch

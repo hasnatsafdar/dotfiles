@@ -5,8 +5,11 @@
 bindkey -v
 export KEYTIMEOUT=1
 bindkey '^f' autosuggest-accept
-bindkey '^k' history-search-backward
-bindkey '^j' history-search-forward
+bindkey '^e' autosuggest-execute
+bindkey '^]' autosuggest-toggle
+bindkey '^w' vi-forward-word
+bindkey '^k' up-line-or-search
+bindkey '^j' down-line-or-search
 bindkey '^[w' kill-region
 
 autoload -Uz edit-command-line; zle -N edit-command-line

@@ -15,7 +15,7 @@
     packages = with pkgs; [
       alacritty kitty
       brave qutebrowser
-      emacs obsidian
+      zed-editor emacs obsidian mermaid-cli
       ffmpeg yt-dlp mpv cava mpd mpc rmpc
       kdePackages.kdenlive obs-studio blender audacity gimp
       thunar yazi lf ncdu
@@ -29,9 +29,9 @@
       lazygit lazydocker lazynpm tmux fzf zoxide stow
       gopass
       aria2 rsync localsend
-      imagemagick ueberzugpp flameshot maim
+      imagemagick zathura ghostscript tectonic ueberzugpp flameshot maim
       clock-rs calcurse neomutt
-      nodejs_24 haskell-language-server lua-language-server hugo
+      nodejs_24 python315 haskell-language-server luarocks lua-language-server tree-sitter hugo
       kanata
       ];
     };
@@ -39,9 +39,10 @@
   environment.systemPackages = with pkgs; [
     coreutils
     cmake
+    gcc
+    nushell
     unzip
     nix-output-monitor
-    python315
     vim
     wget
     xclip
@@ -54,6 +55,15 @@
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc
     zlib
+  ];
+
+  programs.zsh.enable = true;
+
+  users.defaultUserShell = pkgs.zsh;
+
+  environment.shells = [
+    pkgs.zsh
+    pkgs.nushell
   ];
 
   services.transmission = {
@@ -124,15 +134,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
-
-  programs.zsh.enable = true;
-
-  users.defaultUserShell = pkgs.zsh;
-
-  environment.shells = [
-    pkgs.zsh
-    pkgs.nushell
-  ];
 
   programs.neovim.enable = true;
   environment.variables.EDITOR = "nvim";

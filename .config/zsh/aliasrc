@@ -11,6 +11,7 @@ alias ....='cd ../../..'
 # alias vi='nvim'
 alias cat='bat'
 
+alias cl='clear'
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias mkdir='mkdir -pv'
@@ -18,10 +19,12 @@ alias mkdir='mkdir -pv'
 # Safer delete
 # alias rm='mv -t ~/.local/share/Trash/files/'
 
-# eza
-alias ls='eza -lh --icons --group-directories-first'
-alias la='eza -lah --icons --group-directories-first'
-alias lt='eza -T --icons'
+# ── eza aliases ────────────────────────────────────────────
+alias ls='eza --icons --group-directories-first'
+alias l='eza -lh  --icons --git --group-directories-first'
+alias ll='eza -a  --icons --group-directories-first'
+alias la='eza -lah --icons --git --group-directories-first'
+alias lsize='eza -lah --icons --sort=size --reverse --no-permissions --no-user --no-time'
 
 # tltt (too long to type)
 alias brc='nvim ~/.config/xmobar/xmobar.hs'

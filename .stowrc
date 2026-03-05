@@ -1,0 +1,4 @@
+--ignore=.stowrc
+--ignore=screenshots
+--ignore=scripts
+--ignore=.bashrc

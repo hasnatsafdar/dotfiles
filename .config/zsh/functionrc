@@ -7,14 +7,27 @@ chpwd(){
   ls
 }
 
-# Yazi
-function y() {
-    local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
-    command yazi "$@" --cwd-file="$tmp"
-    IFS= read -r cwd < "$tmp"
-    [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
-    rm -f -- "$tmp"
+# core tree engine
+_lt() {
+  local flags="$1"; shift
+
+  local level=2
+  if [[ $# -gt 0 && "$1" =~ ^[0-9]+$ ]]; then
+    level="$1"; shift
+  fi
+
+  local ignore_glob=".git|node_modules"
+  for pat in "$@"; do ignore_glob="${ignore_glob}|${pat}"; done
+
+  eza --tree --level="$level" --icons $=flags \
+      --ignore-glob="$ignore_glob"
 }
+
+# tree variants
+lt()   { _lt ""         "$@"; }  # simple, no details
+ltl()  { _lt "-lh --git"   "$@"; }  # long details
+lta()  { _lt "-a"          "$@"; }  # hidden, no details
+ltla() { _lt "-lah --git"  "$@"; }  # long + hidden
 
 zle -N y
 bindkey '^[o' y
@@ -123,4 +136,13 @@ format-drive() {
       echo "Drive $1 formatted and labeled '$2'."
     fi
   fi
+}
+
+# Yazi
+function y() {
+    local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r cwd < "$tmp"
+    [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
 }
