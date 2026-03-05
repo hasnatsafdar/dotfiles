@@ -10,6 +10,7 @@
 # ╭─────────────────────────────────────────────╮
 # │       Enable colors and change prompt       │
 # ╰─────────────────────────────────────────────╯
+
 autoload -U colors && colors
 # PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)\
 # %F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
@@ -22,17 +23,20 @@ autoload -U colors && colors
 # ╭─────────────────────╮
 # │       Exports       │
 # ╰─────────────────────╯
+
 export EDITOR=nvim
 export MANPAGER='nvim +Man!'
 export FZF_CTRL_T_OPTS="--preview 'eza --icons --color=always {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --icons --color=always {}'"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH=/home/hxt/node_modules/opencode-linux-x64/bin:$PATH
 
 # ╭─────────────────────────────────────╮
 # │          History & Options          │
 # ╰─────────────────────────────────────╯
-HISTSIZE=5000
+
+HISTSIZE=50000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
@@ -50,6 +54,7 @@ setopt autocd
 # ╭─────────────────────────────────────────────╮
 # │              Auto/Tab complete              │
 # ╰─────────────────────────────────────────────╯
+
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
@@ -63,6 +68,7 @@ _comp_options+=(globdots)
 # ╭──────────────────────────────────────────────╮
 # │  Source Zsh Plugins, Prompt & other configs  │
 # ╰──────────────────────────────────────────────╯
+
 [ -f "$HOME/.config/zsh/plugmgrrc" ] && source "$HOME/.config/zsh/plugmgrrc"
 [ -f "$HOME/.config/zsh/promptrc" ] && source "$HOME/.config/zsh/promptrc"
 [ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
@@ -77,3 +83,6 @@ add_plugin zsh-users/zsh-syntax-highlighting
 add_plugin zsh-users/zsh-autosuggestions
 add_plugin zsh-users/zsh-completions
 add_plugin Aloxaf/fzf-tab
+
+# Misc stuff
+nitch

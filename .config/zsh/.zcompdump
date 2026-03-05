@@ -687,6 +687,7 @@ _comps=(
 'hugo' '_hugo'
 'hwinfo' '_hwinfo'
 'hyprctl' '_hyprctl'
+'hyprpm' '_hyprpm'
 'iceweasel' '_mozilla'
 'icombine' '_ispell'
 'iconv' '_iconv'
@@ -982,7 +983,6 @@ _comps=(
 'next' '_mh'
 'nginx' '_nginx'
 'ngrep' '_ngrep'
-'nh' '_nh'
 'nice' '_nice'
 'nix' '_nix'
 'nix-build' '_nix-build'
@@ -1952,8 +1952,8 @@ autoload -Uz _alacritty _bat _buku _ddgr _dunst \
             _polybar _polybar_msg _rmpc _swww _tldr \
             _wikiman _xwallpaper _yazi _yt-dlp _zoxide \
             _bluetoothctl _bootctl _busctl _coredumpctl _docker \
-            _fd _flatpak _hostnamectl _hyprctl _journalctl \
-            _localectl _loginctl _machinectl _networkctl _nh \
+            _fd _flatpak _hostnamectl _hyprctl _hyprpm \
+            _journalctl _localectl _loginctl _machinectl _networkctl \
             _nix _nix-build _nix-channel _nix-collect-garbage _nix-common-options \
             _nix-copy-closure _nix-env _nix-hash _nix-install-package _nix-instantiate \
             _nixops _nixos-build-vms _nixos-container _nixos-generate-config _nixos-install \

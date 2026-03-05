@@ -16,20 +16,22 @@
       alacritty kitty
       brave qutebrowser
       emacs obsidian
-      kdePackages.kdenlive obs-studio ffmpeg yt-dlp mpv cava mpd mpc rmpc
+      ffmpeg yt-dlp mpv cava mpd mpc rmpc
+      kdePackages.kdenlive obs-studio blender audacity gimp
       thunar yazi lf ncdu
       xmobar polybar dmenu rofi rofi-emoji
       dunst libnotify
       lxappearance picom
       xwallpaper nitrogen hyprpaper swww
-      tealdeer wikiman fastfetch btop bat oh-my-posh eza nitch pywal16 fortune cowsay figlet lolcat
+      tealdeer wikiman fastfetch btop bat oh-my-posh eza pywal16
+      nitch fortune cowsay figlet lolcat
       ddgr w3m buku
-      lazygit lazydocker tmux fzf zoxide stow
+      lazygit lazydocker lazynpm tmux fzf zoxide stow
       gopass
       aria2 rsync localsend
       imagemagick ueberzugpp flameshot maim
       clock-rs calcurse neomutt
-      haskell-language-server lua-language-server hugo
+      nodejs_24 haskell-language-server lua-language-server hugo
       kanata
       ];
     };
@@ -46,6 +48,12 @@
     ripgrep fd
     bc
     pulseaudio brightnessctl
+  ];
+  programs.nix-ld.enable = true;
+
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
   ];
 
   services.transmission = {
@@ -158,7 +166,7 @@
          tap-time 150
          hold-time 200
         )
-        
+
         (defalias
          a (multi f24 (tap-hold $tap-time $hold-time a lmet))
          s (multi f24 (tap-hold $tap-time $hold-time s lalt))
@@ -171,7 +179,7 @@
          lalt (tap-hold $tap-time $hold-time bspc lalt)
          ralt (tap-hold $tap-time $hold-time ret ralt)
         )
-        
+
         (deflayer base
          esc @a @s @d @f @j @k @l @; @lalt @ralt
         )
