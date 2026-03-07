@@ -15,11 +15,11 @@
     packages = with pkgs; [
       alacritty kitty
       brave qutebrowser
-      zed-editor emacs obsidian mermaid-cli
+      emacs obsidian mermaid-cli
       ffmpeg yt-dlp mpv cava mpd mpc rmpc
       kdePackages.kdenlive obs-studio blender audacity gimp
       thunar yazi lf ncdu
-      xmobar polybar dmenu rofi rofi-emoji
+      xmobar polybar rofi rofi-emoji
       dunst libnotify
       lxappearance picom
       xwallpaper nitrogen hyprpaper swww
@@ -27,10 +27,11 @@
       nitch fortune cowsay figlet lolcat
       ddgr w3m buku
       lazygit lazydocker lazynpm tmux fzf zoxide stow
-      gopass
+      pam_gnupg gpg-tui pinentry-curses pass passExtensions.pass-otp gopass
+      neomutt mutt-wizard isync msmtp
       aria2 rsync localsend
-      imagemagick zathura ghostscript tectonic ueberzugpp flameshot maim
-      clock-rs calcurse neomutt
+      imagemagick zbar zathura ghostscript tectonic ueberzugpp flameshot maim
+      clock-rs calcurse
       nodejs_24 python315 haskell-language-server luarocks lua-language-server tree-sitter hugo
       kanata
       ];
@@ -50,6 +51,12 @@
     bc
     pulseaudio brightnessctl
   ];
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
+
   programs.nix-ld.enable = true;
 
   programs.nix-ld.libraries = with pkgs; [

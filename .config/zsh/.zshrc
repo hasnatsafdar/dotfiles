@@ -11,7 +11,7 @@
 # │       Enable colors and change prompt       │
 # ╰─────────────────────────────────────────────╯
 
-autoload -U colors && colors
+# autoload -U colors && colors
 # PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)\
 # %F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
 
@@ -70,11 +70,9 @@ _comp_options+=(globdots)
 # │  Source Zsh Plugins, Prompt & other configs  │
 # ╰──────────────────────────────────────────────╯
 
-[ -f "$HOME/.config/zsh/plugmgrrc" ] && source "$HOME/.config/zsh/plugmgrrc"
-[ -f "$HOME/.config/zsh/promptrc" ] && source "$HOME/.config/zsh/promptrc"
-[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
-[ -f "$HOME/.config/zsh/functionrc" ] && source "$HOME/.config/zsh/functionrc"
-[ -f "$HOME/.config/zsh/virc" ] && source "$HOME/.config/zsh/virc"
+for file in $HOME/.config/zsh/modules/*; do
+  [[ -f "$file" ]] && source "$file"
+done
 
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
