@@ -7,19 +7,6 @@
 #                                ;
 # ============================== ;
 
-# ╭─────────────────────────────────────────────╮
-# │       Enable colors and change prompt       │
-# ╰─────────────────────────────────────────────╯
-
-# autoload -U colors && colors
-# PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)\
-# %F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
-
-# PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)%F{#53BDFA}%~%f $(git_prompt_info)'$'\n''%F{#F07178}❯ %f'
-#
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M \
-# %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} %b "
-
 # ╭─────────────────────╮
 # │       Exports       │
 # ╰─────────────────────╯
@@ -65,6 +52,19 @@ autoload -U compinit
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
+
+# ╭─────────────────────────────────────────────╮
+# │       Enable colors and change prompt       │
+# ╰─────────────────────────────────────────────╯
+
+# autoload -U colors && colors
+# PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)\
+# %F{blue}%~%f $(git_prompt_info)'$'\n''%F{red}❯%f '
+
+# PS1='$(exit_status $LAST_EXIT_CODE)$(context_info)%F{#53BDFA}%~%f $(git_prompt_info)'$'\n''%F{#F07178}❯ %f'
+#
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M \
+# %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%} %b "
 
 # ╭──────────────────────────────────────────────╮
 # │  Source Zsh Plugins, Prompt & other configs  │

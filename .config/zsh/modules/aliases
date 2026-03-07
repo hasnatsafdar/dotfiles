@@ -30,6 +30,8 @@ alias lsize='eza -lah --icons --sort=size --reverse --no-permissions --no-user -
 alias brc='nvim ~/.config/xmobar/xmobar.hs'
 alias cfg='nvim ~/nix/configuration.nix'
 alias drc='nvim ~/projects/dwm/config.h'
+alias mdwm='cd ~/.config/dwm; sudo make clean install; cd -';
+alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
 alias df='df -h -x squashfs -x tmpfs -x devtmfs'
 alias extip='curl icanhazip.com'
 alias ff="fzf --preview='bat --color=always {}'"
@@ -39,10 +41,9 @@ alias is='sudo dnf search'
 alias lsmount='mount | column -t'
 alias ld='lazydocker'
 alias lemmein='ssh haxnethost@192.168.122.143'
-alias mdwm='cd ~/.config/dwm; sudo make clean install; cd -';
-alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
 alias speedtest='speedtest-cli --bytes'
-alias s='BROWSER=w3m ddgr'
+alias s='ls'
+alias sx='BROWSER=w3m ddgr'
 alias tns='tmux new -s'
 alias update='sudo dnf update -y'
 alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"

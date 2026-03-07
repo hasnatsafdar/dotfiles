@@ -48,7 +48,7 @@ myWorkspaces = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"]
 
 myModMask = mod4Mask
 
-myTerminal = "alacritty"
+myTerminal = "kitty --single-instance"
 
 -- TODO Layout I'm using stays active
 
@@ -93,11 +93,11 @@ myStartupHook = do
 myKeys =
   -- Launch applications
   [ ("M-<Return>", spawn myTerminal)
+  , ("M-S-<Return>", spawn "alacritty")
   , ("M-n", spawn (myTerminal ++ " -e nvim"))
   , ("M-d", spawn "rofi -show drun")
   , ("M-S-x", spawn "rofi -show powermenu -modi 'powermenu:./.local/bin/rofi-power-menu'")
   , ("M-S-d", spawn "dmenu_run")
-  , ("M-S-o", spawn "def-lookup")
   , ("M-w", spawn "app.zen_browser.zen")
   , ("M-S-w", spawn "brave")
   , ("M-o", spawn "obsidian")
@@ -109,6 +109,7 @@ myKeys =
 
   , -- dmenu/rofi scripts
     ("M-p b", spawn "./.local/bin/buku-dmenu")
+  , ("M-p t", spawn "./.local/bin/def-lookup")
   , -- Window management
     ("M-q", kill)
   , ("M-j", windows W.focusDown)

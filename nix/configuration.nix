@@ -19,7 +19,7 @@
       ffmpeg yt-dlp mpv cava mpd mpc rmpc
       kdePackages.kdenlive obs-studio blender audacity gimp
       thunar yazi lf ncdu
-      xmobar polybar rofi rofi-emoji
+      xmobar polybar rofi
       dunst libnotify
       lxappearance picom
       xwallpaper nitrogen hyprpaper swww
@@ -29,7 +29,7 @@
       lazygit lazydocker lazynpm tmux fzf zoxide stow
       pam_gnupg gpg-tui pinentry-curses pass passExtensions.pass-otp gopass
       neomutt mutt-wizard isync msmtp
-      aria2 rsync localsend
+      aria2 varia rsync localsend
       imagemagick zbar zathura ghostscript tectonic ueberzugpp flameshot maim
       clock-rs calcurse
       nodejs_24 python315 haskell-language-server luarocks lua-language-server tree-sitter hugo
@@ -38,9 +38,10 @@
     };
 
   environment.systemPackages = with pkgs; [
-    coreutils
-    cmake
-    gcc
+    coreutils cmake gnumake gcc
+    pkg-config fontconfig
+    libX11 libXft libXinerama
+    freetype harfbuzz
     nushell
     unzip
     nix-output-monitor
@@ -98,6 +99,13 @@
     clean.enable = true;
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/hxt/nix"; # sets NH_OS_FLAKE variable for you
+  };
+
+  services.xserver.windowManager.qtile = {
+    enable = true;
+    extraPackages = python3Packages: with python3Packages; [
+      qtile-extras
+    ];
   };
 
   services = {

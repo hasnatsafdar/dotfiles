@@ -29,15 +29,15 @@ ltl()  { _lt "-lh --git"   "$@"; }  # long details
 lta()  { _lt "-a"          "$@"; }  # hidden, no details
 ltla() { _lt "-lah --git"  "$@"; }  # long + hidden
 
-zle -N y
-bindkey '^[o' y
-
 # Fuzzy find stuff and open in vim
 fzf-preview-widget() {
   find . -type f | fzf \
     --preview 'bat --style=numbers --color=always --line-range :500 {}' \
     --bind "enter:become($EDITOR {})"
 }
+
+zle -N fzf-preview-widget
+bindkey '^[f' fzf-preview-widget
 
 # Convert any image to high-quality JPG (stripped metadata)
 img2jpg() {
@@ -146,3 +146,6 @@ function y() {
     [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
     rm -f -- "$tmp"
 }
+
+zle -N y
+bindkey '^[o' y
