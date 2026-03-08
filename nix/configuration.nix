@@ -32,7 +32,8 @@
       aria2 varia rsync localsend
       imagemagick zbar zathura ghostscript tectonic ueberzugpp flameshot maim
       clock-rs calcurse
-      nodejs_24 python315 haskell-language-server luarocks lua-language-server tree-sitter hugo
+      nodejs_24 python315 hugo
+      haskell-language-server luarocks lua-language-server tree-sitter
       kanata
       ];
     };

@@ -1,22 +1,27 @@
 { config, pkgs, ... }:
 
 let
-  dotfiles = "${config.home.homeDirectory}/nixos-dotfiles/config";
+  dotfiles = "${config.home.homeDirectory}/nix/config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
   # Standard .config/directory
   configs = {
-    xmonad = "xmonad";
-    xmobar = "xmobar";
-    nvim = "nvim";
-    tmux = "tmux";
-    picom = "picom";
     alacritty = "alacritty";
     aria2 = "aria2";
-    dunst = "dunst";
     btop = "btop";
     cava = "cava";
+    dunst = "dunst";
     fastfetch = "fastfetch";
+    kitty = "kitty";
+    nushell = "nushell";
+    nvim = "nvim";
+    ohmyposh = "ohmyposh";
+    picom = "picom";
+    tmux = "tmux";
+    xmobar = "xmobar";
+    xmonad = "xmonad";
+    yazi = "yazi";
+    zathura = "zathura";
     zsh="zsh";
   };
 in

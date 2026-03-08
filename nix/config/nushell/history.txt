@@ -1,0 +1,32 @@
+mv nushell/ nushell.bak
+ls
+cd
+config nu
+zsh
+cl
+zsh
+zsh
+ls | where size > 1mb
+cofig
+config
+config nu
+config
+ls
+config nu
+cl
+clear
+ls
+"12" | into int
+echo 12
+echo "12"
+[one two three] | to yaml
+ls
+config nu
+ls
+table --list 
+config nu
+ls
+config nu
+ls
+$env.config.color_config | sort
+config nu

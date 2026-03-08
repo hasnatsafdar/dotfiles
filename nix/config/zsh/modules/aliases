@@ -1,0 +1,60 @@
+# ╭─────────────────────╮
+# │       Aliases       │
+# ╰─────────────────────╯
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+# Core utils
+# alias vi='nvim'
+alias cat='bat'
+
+alias cl='clear'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias mkdir='mkdir -pv'
+
+# Safer delete
+# alias rm='mv -t ~/.local/share/Trash/files/'
+
+# ── eza aliases ────────────────────────────────────────────
+alias ls='eza --icons --group-directories-first'
+alias l='eza -lh  --icons --git --group-directories-first'
+alias ll='eza -a  --icons --group-directories-first'
+alias la='eza -lah --icons --git --group-directories-first'
+alias lsize='eza -lah --icons --sort=size --reverse --no-permissions --no-user --no-time'
+
+# tltt (too long to type)
+alias brc='nvim ~/.config/xmobar/xmobar.hs'
+alias cfg='nvim ~/nix/configuration.nix'
+alias drc='nvim ~/projects/dwm/config.h'
+alias mdwm='cd ~/.config/dwm; sudo make clean install; cd -';
+alias nrs='sudo nixos-rebuild switch --flake ~/nix#nixos'
+alias df='df -h -x squashfs -x tmpfs -x devtmfs'
+alias extip='curl icanhazip.com'
+alias ff="fzf --preview='bat --color=always {}'"
+alias gp='gopass'
+alias i='sudo dnf install -y'
+alias is='sudo dnf search'
+alias lsmount='mount | column -t'
+alias ld='lazydocker'
+alias lemmein='ssh haxnethost@192.168.122.143'
+alias speedtest='speedtest-cli --bytes'
+alias s='ls'
+alias sx='BROWSER=w3m ddgr'
+alias tns='tmux new -s'
+alias update='sudo dnf update -y'
+alias vf="nvim \$(fzf --preview 'bat --color=always --style=numbers {}')"
+alias xrc='nvim ~/.config/xmonad/xmonad.hs'
+
+alias mpvyt="mpv --quiet \
+  --msg-level=all=no \
+  --ytdl-format='bestvideo[height<=720]+bestaudio/best[height<=720]' \
+  --hwdec=auto --profile=fast"
+
+# Fastfetch
+alias nf='fastfetch -c examples/13'
+alias nfn='fastfetch -c ~/.config/fastfetch/25.jsonc'
+alias nfs='fastfetch -c ~/.config/fastfetch/fastfetch.jsonc'
