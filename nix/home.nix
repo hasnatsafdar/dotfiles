@@ -2,45 +2,61 @@
 
 let
   dotfiles = "${config.home.homeDirectory}/nix/config";
-  create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
+  mkSymlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
-  # Standard .config/directory
+  # Directories symlinked into ~/.config/
   configs = {
     alacritty = "alacritty";
-    aria2 = "aria2";
-    btop = "btop";
-    cava = "cava";
-    dunst = "dunst";
-    fastfetch = "fastfetch";
-    kitty = "kitty";
-    nushell = "nushell";
-    nvim = "nvim";
-    ohmyposh = "ohmyposh";
-    picom = "picom";
-    tmux = "tmux";
-    xmobar = "xmobar";
-    xmonad = "xmonad";
-    yazi = "yazi";
-    zathura = "zathura";
-    zsh="zsh";
+    aria2      = "aria2";
+    btop       = "btop";
+    cava       = "cava";
+    dunst      = "dunst";
+    fastfetch  = "fastfetch";
+    kitty      = "kitty";
+    nushell    = "nushell";
+    nvim       = "nvim";
+    ohmyposh   = "ohmyposh";
+    picom      = "picom";
+    tmux       = "tmux";
+    xmobar     = "xmobar";
+    xmonad     = "xmonad";
+    yazi       = "yazi";
+    zathura    = "zathura";
+    zsh        = "zsh";
   };
 in
 
 {
-  home.username = "hxt";
+  imports = [
+    ./modules/pkgs.nix
+  ];
+
+  # =========================================================================
+  # HOME
+  # =========================================================================
+
+  home.username      = "hxt";
   home.homeDirectory = "/home/hxt";
-  programs.git.enable = true;
-  home.stateVersion = "25.11";
+  home.stateVersion  = "25.11";
+
+  # =========================================================================
+  # DOTFILES (symlinked from ~/nix/config/)
+  # =========================================================================
 
   xdg.configFile = builtins.mapAttrs
-    (name: subpath: {
-      source = create_symlink "${dotfiles}/${subpath}";
+    (_name: subpath: {
+      source    = mkSymlink "${dotfiles}/${subpath}";
       recursive = true;
     })
     configs;
 
-  home.packages = with pkgs; [
-    nil
-    nixpkgs-fmt
-  ];
+  # =========================================================================
+  # PROGRAMS
+  # =========================================================================
+
+  programs.git = {
+    enable    = true;
+    userName  = "hasnatsafdar";
+    userEmail = "hasnat.professional@gmail.com";
+  };
 }

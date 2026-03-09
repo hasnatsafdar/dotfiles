@@ -3,9 +3,11 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./modules/packages.nix
     ./modules/services.nix
+    # ./modules/vm.nix
   ];
+
+  # TODO Nvidia drivers 470xx setup
 
   # =========================================================================
   # NIX SETTINGS
@@ -23,7 +25,7 @@
 
   boot.loader = {
     systemd-boot = {
-      enable = true;
+      enable             = true;
       configurationLimit = 10;
     };
     efi.canTouchEfiVariables = true;
@@ -34,7 +36,7 @@
   # =========================================================================
 
   networking = {
-    hostName = "nixos";
+    hostName              = "nixos";
     networkmanager.enable = true;
   };
 
@@ -91,11 +93,11 @@
   services.pulseaudio.enable = false;
 
   services.pipewire = {
-    enable        = true;
-    alsa.enable   = true;
+    enable            = true;
+    alsa.enable       = true;
     alsa.support32Bit = true;
-    pulse.enable  = true;
-    jack.enable   = true;
+    pulse.enable      = true;
+    jack.enable       = true;
   };
 
   # =========================================================================
@@ -105,7 +107,7 @@
   services.displayManager.ly.enable = true;
 
   services.xserver = {
-    enable          = true;
+    enable             = true;
     autoRepeatDelay    = 200;
     autoRepeatInterval = 35;
 
@@ -116,7 +118,7 @@
 
     windowManager = {
       xmonad = {
-        enable                = true;
+        enable                 = true;
         enableContribAndExtras = true;
         extraPackages = hpkgs: [
           hpkgs.xmonad
@@ -126,7 +128,7 @@
       };
 
       qtile = {
-        enable = true;
+        enable        = true;
         extraPackages = python3Packages: with python3Packages; [
           qtile-extras
         ];
@@ -135,7 +137,7 @@
   };
 
   programs.hyprland = {
-    enable         = true;
+    enable          = true;
     xwayland.enable = true;
   };
 
@@ -143,8 +145,6 @@
     enable       = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-
-  services.desktopManager.gnome.enable = true
 
   # =========================================================================
   # SHELL
@@ -161,6 +161,21 @@
   # PROGRAMS
   # =========================================================================
 
+  # Build tools & system libraries — kept here as they are system-level deps
+  environment.systemPackages = with pkgs; [
+    cmake
+    gnumake
+    gcc
+    pkg-config
+    fontconfig
+    libX11
+    libXft
+    libXinerama
+    freetype
+    harfbuzz
+    brightnessctl
+  ];
+
   environment.variables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
@@ -172,21 +187,13 @@
     viAlias       = true;
   };
 
-  programs.git = {
-    enable = true;
-    config = {
-      user.name  = "hasnatsafdar";
-      user.email = "hasnat.professional@gmail.com";
-    };
-  };
-
   programs.gnupg.agent = {
-    enable         = true;
+    enable          = true;
     pinentryPackage = pkgs.pinentry-curses;
   };
 
   programs.nix-ld = {
-    enable = true;
+    enable    = true;
     libraries = with pkgs; [
       stdenv.cc.cc
       zlib
@@ -194,8 +201,8 @@
   };
 
   programs.nh = {
-    enable    = true;
-    flake     = "/home/hxt/nix";
+    enable = true;
+    flake  = "/home/hxt/nix";
     clean = {
       enable    = true;
       extraArgs = "--keep-since 4d --keep 3";

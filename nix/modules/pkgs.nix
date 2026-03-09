@@ -1,14 +1,9 @@
 { pkgs, ... }:
 
 {
-  # =========================================================================
-  # USER PACKAGES
-  # Packages installed for user `hxt` only.
-  # =========================================================================
+  home.packages = with pkgs; [
 
-  users.users.hxt.packages = with pkgs; [
-
-    # --- Terminals & Shells ---
+    # --- Terminals ---
     alacritty
     kitty
 
@@ -128,31 +123,12 @@
 
     # --- Input ---
     kanata
-  ];
 
-  # =========================================================================
-  # SYSTEM PACKAGES
-  # Available to all users system-wide.
-  # =========================================================================
+    # --- Nix Dev ---
+    nil
+    nixpkgs-fmt
 
-  environment.systemPackages = with pkgs; [
-
-    # --- Build Tools ---
-    coreutils
-    cmake
-    gnumake
-    gcc
-    pkg-config
-
-    # --- Libraries (for building / linking) ---
-    fontconfig
-    libX11
-    libXft
-    libXinerama
-    freetype
-    harfbuzz
-
-    # --- Shell & Core Utils ---
+    # --- Personal CLI Tools ---
     nushell
     vim
     wget
@@ -161,12 +137,6 @@
     xclip
     ripgrep
     fd
-
-    # --- Nix Utils ---
     nix-output-monitor
-
-    # --- Hardware Control ---
-    pulseaudio
-    brightnessctl
   ];
 }
