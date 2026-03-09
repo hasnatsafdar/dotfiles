@@ -13,8 +13,10 @@
 
 export EDITOR=nvim
 export MANPAGER='nvim +Man!'
+
 export FZF_CTRL_T_OPTS="--preview 'eza --icons --color=always {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --icons --color=always {}'"
+
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH=/home/hxt/node_modules/opencode-linux-x64/bin:$PATH

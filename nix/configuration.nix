@@ -1,209 +1,80 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      # ./vm.nix
-    ];
-# TODO Nvidia Drivers 470xx setup
-
-  users.users.hxt = {
-    isNormalUser = true;
-    description = "Hasnat Safdar";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [
-      alacritty kitty
-      brave qutebrowser
-      emacs obsidian mermaid-cli
-      ffmpeg yt-dlp mpv cava mpd mpc rmpc
-      kdePackages.kdenlive obs-studio blender audacity gimp
-      thunar yazi lf ncdu
-      xmobar polybar rofi
-      dunst libnotify
-      lxappearance picom
-      xwallpaper nitrogen hyprpaper swww
-      tealdeer wikiman fastfetch btop bat oh-my-posh eza pywal16
-      nitch fortune cowsay figlet lolcat
-      ddgr w3m buku
-      lazygit lazydocker lazynpm tmux fzf zoxide stow
-      pam_gnupg gpg-tui pinentry-curses pass passExtensions.pass-otp gopass
-      neomutt mutt-wizard isync msmtp
-      aria2 varia rsync localsend
-      imagemagick zbar zathura ghostscript tectonic ueberzugpp flameshot maim
-      clock-rs calcurse
-      nodejs_24 python315 hugo
-      haskell-language-server luarocks lua-language-server tree-sitter
-      kanata
-      ];
-    };
-
-  environment.systemPackages = with pkgs; [
-    coreutils cmake gnumake gcc
-    pkg-config fontconfig
-    libX11 libXft libXinerama
-    freetype harfbuzz
-    nushell
-    unzip
-    nix-output-monitor
-    vim
-    wget
-    xclip
-    ripgrep fd
-    bc
-    pulseaudio brightnessctl
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/packages.nix
+    ./modules/services.nix
   ];
 
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-curses;
-  };
+  # =========================================================================
+  # NIX SETTINGS
+  # =========================================================================
 
-  programs.nix-ld.enable = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc
-    zlib
-  ];
+  nixpkgs.config.allowUnfree = true;
 
-  programs.zsh.enable = true;
+  system.stateVersion = "25.11";
 
-  users.defaultUserShell = pkgs.zsh;
+  # =========================================================================
+  # BOOT
+  # =========================================================================
 
-  environment.shells = [
-    pkgs.zsh
-    pkgs.nushell
-  ];
-
-  services.transmission = {
-    enable = true;
-    package = pkgs.transmission_4;
-  };
-  services.transmission.settings = {
-    download-dir = "${config.services.transmission.home}/Downloads";
-  };
-
-  virtualisation.docker.enable = true;
-  virtualisation.docker.rootless = {
-    enable = false;
-    setSocketVariable = true;
-  };
-
-  services.mpd = {
-    enable = true;
-    settings.music_directory = "/home/hxt/Music";
-    settings.bind_to_address = "127.0.0.1";
-  };
-
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "/home/hxt/nix"; # sets NH_OS_FLAKE variable for you
-  };
-
-  services.xserver.windowManager.qtile = {
-    enable = true;
-    extraPackages = python3Packages: with python3Packages; [
-      qtile-extras
-    ];
-  };
-
-  services = {
-  # picom.enable = true;
-  displayManager = {
-    ly.enable = true;
-  };
-  xserver = {
-    enable = true;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 35;
-    windowManager = {
-      xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-        extraPackages = hpkgs: [
-          hpkgs.xmonad
-          hpkgs.xmonad-extras
-          hpkgs.xmonad-contrib
-      ];
-     };
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
     };
-   };
+    efi.canTouchEfiVariables = true;
   };
 
-  services.desktopManager.gnome.enable = true;
+  # =========================================================================
+  # NETWORKING
+  # =========================================================================
 
-  services.flatpak.enable = true;
-
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
   };
 
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
+  # =========================================================================
+  # LOCALE & TIME
+  # =========================================================================
 
-  programs.neovim.enable = true;
-  environment.variables.EDITOR = "nvim";
-  environment.variables.VISUAL = "nvim";
-  programs.neovim.defaultEditor = true;
-  programs.neovim.viAlias = true;
+  time.timeZone = "Asia/Karachi";
 
-  programs.git.enable = true;
-
-  programs.git.config = {
-    user.name = "hasnatsafdar";
-    user.email = "hasnat.professional@gmail.com";
-  };
-
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-
-  services.kanata = {
-    enable = true;
-    keyboards = {
-      internalKeyboard = {
-        devices = [
-          "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-        ];
-        extraDefCfg = "process-unmapped-keys yes";
-        config = ''
-	(defsrc
-         caps a s d f j k l ; lalt ralt
-        )
-        (defvar
-         tap-time 150
-         hold-time 200
-        )
-
-        (defalias
-         a (multi f24 (tap-hold $tap-time $hold-time a lmet))
-         s (multi f24 (tap-hold $tap-time $hold-time s lalt))
-         d (multi f24 (tap-hold $tap-time $hold-time d lsft))
-         f (multi f24 (tap-hold $tap-time $hold-time f lctl))
-         j (multi f24 (tap-hold $tap-time $hold-time j rctl))
-         k (multi f24 (tap-hold $tap-time $hold-time k rsft))
-         l (multi f24 (tap-hold $tap-time $hold-time l ralt))
-         ; (multi f24 (tap-hold $tap-time $hold-time ; rmet))
-         lalt (tap-hold $tap-time $hold-time bspc lalt)
-         ralt (tap-hold $tap-time $hold-time ret ralt)
-        )
-
-        (deflayer base
-         esc @a @s @d @f @j @k @l @; @lalt @ralt
-        )
-        '';
-      };
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS        = "ur_PK";
+      LC_IDENTIFICATION = "ur_PK";
+      LC_MEASUREMENT    = "ur_PK";
+      LC_MONETARY       = "ur_PK";
+      LC_NAME           = "ur_PK";
+      LC_NUMERIC        = "ur_PK";
+      LC_PAPER          = "ur_PK";
+      LC_TELEPHONE      = "ur_PK";
+      LC_TIME           = "ur_PK";
     };
   };
+
+  # =========================================================================
+  # USERS
+  # =========================================================================
+
+  users = {
+    defaultUserShell = pkgs.zsh;
+    users.hxt = {
+      isNormalUser = true;
+      description  = "Hasnat Safdar";
+      extraGroups  = [ "networkmanager" "wheel" "docker" ];
+    };
+  };
+
+  # =========================================================================
+  # FONTS
+  # =========================================================================
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -211,38 +82,135 @@
     inter
   ];
 
-  networking.hostName = "nixos";
+  # =========================================================================
+  # AUDIO
+  # =========================================================================
 
-  networking.networkmanager.enable = true;
+  security.rtkit.enable = true;
 
-  time.timeZone = "Asia/Karachi";
+  services.pulseaudio.enable = false;
 
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "ur_PK";
-    LC_IDENTIFICATION = "ur_PK";
-    LC_MEASUREMENT = "ur_PK";
-    LC_MONETARY = "ur_PK";
-    LC_NAME = "ur_PK";
-    LC_NUMERIC = "ur_PK";
-    LC_PAPER = "ur_PK";
-    LC_TELEPHONE = "ur_PK";
-    LC_TIME = "ur_PK";
+  services.pipewire = {
+    enable        = true;
+    alsa.enable   = true;
+    alsa.support32Bit = true;
+    pulse.enable  = true;
+    jack.enable   = true;
   };
 
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  # =========================================================================
+  # DISPLAY & WINDOW MANAGERS
+  # =========================================================================
+
+  services.displayManager.ly.enable = true;
+
+  services.xserver = {
+    enable          = true;
+    autoRepeatDelay    = 200;
+    autoRepeatInterval = 35;
+
+    xkb = {
+      layout  = "us";
+      variant = "";
+    };
+
+    windowManager = {
+      xmonad = {
+        enable                = true;
+        enableContribAndExtras = true;
+        extraPackages = hpkgs: [
+          hpkgs.xmonad
+          hpkgs.xmonad-extras
+          hpkgs.xmonad-contrib
+        ];
+      };
+
+      qtile = {
+        enable = true;
+        extraPackages = python3Packages: with python3Packages; [
+          qtile-extras
+        ];
+      };
+    };
   };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 10;
-  boot.loader.efi.canTouchEfiVariables = true;
+  programs.hyprland = {
+    enable         = true;
+    xwayland.enable = true;
+  };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  xdg.portal = {
+    enable       = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 
-  nixpkgs.config.allowUnfree = true;
+  services.desktopManager.gnome.enable = true
 
-  system.stateVersion = "25.11";
-  }
+  # =========================================================================
+  # SHELL
+  # =========================================================================
+
+  programs.zsh.enable = true;
+
+  environment.shells = [
+    pkgs.zsh
+    pkgs.nushell
+  ];
+
+  # =========================================================================
+  # PROGRAMS
+  # =========================================================================
+
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
+  programs.neovim = {
+    enable        = true;
+    defaultEditor = true;
+    viAlias       = true;
+  };
+
+  programs.git = {
+    enable = true;
+    config = {
+      user.name  = "hasnatsafdar";
+      user.email = "hasnat.professional@gmail.com";
+    };
+  };
+
+  programs.gnupg.agent = {
+    enable         = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+    ];
+  };
+
+  programs.nh = {
+    enable    = true;
+    flake     = "/home/hxt/nix";
+    clean = {
+      enable    = true;
+      extraArgs = "--keep-since 4d --keep 3";
+    };
+  };
+
+  # =========================================================================
+  # VIRTUALISATION
+  # =========================================================================
+
+  virtualisation.docker = {
+    enable   = true;
+    rootless = {
+      enable            = false;
+      setSocketVariable = true;
+    };
+  };
+}
